@@ -1,6 +1,6 @@
 // src/components/CreateQuestion.js
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase/firebase';
+import { db } from '../firebase/firebase.js';
 import { collection, getDocs, addDoc } from 'firebase/firestore';
 
 const CreateQuestion = () => {

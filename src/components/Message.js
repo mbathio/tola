@@ -1,7 +1,7 @@
 // src/components/Messages.js
 import { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../firebase/firebase'; // Assurez-vous que le chemin vers votre fichier firebase.js est correct
+import { db } from '../firebase/firebase.js'; // Assurez-vous que le chemin vers votre fichier firebase.js est correct
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);

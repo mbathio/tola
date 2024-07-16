@@ -1,16 +1,15 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useAuthState } from 'react-firebase-hooks/auth.js';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
-import Signup from './components/Signup';
-import Login from './components/Login';
-import Home from './components/Home';
-import CreateQuestion from './components/CreateQuestion';
-import QuestionList from './components/QuestionList';
-import AppMenu from './components/AppMenu'; // Assu
+import Signup from './components/Signup.js';
+import Login from './components/Login.js';
+import Home from './components/Home.js';
+import CreateQuestion from './components/CreateQuestion.js';
+import QuestionList from './components/QuestionList.js';
+import AppMenu from './components/AppMenu.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCCpdUVCCz3HRumnu_vlN5cEBTelHFYBiA",
@@ -30,15 +29,16 @@ const App = () => {
 
   return (
     <Router>
-      <AppMenu /> {/* Assurez-vous qu'AppMenu est ici */}
-      <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/create" element={<CreateQuestion />} />
-        <Route path="/questions" element={<QuestionList />} />
-      </Routes>
-    </Router>
-  );
+    <AppMenu />
+    <Routes>
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/create" element={<CreateQuestion />} />
+      <Route path="/questions" element={<QuestionList />} />
+    </Routes>
+  </Router>
+);
 };
 
 export default App;

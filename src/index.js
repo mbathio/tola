@@ -1,16 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';  // Assurez-vous que le chemin correspond à la localisation exacte de App.js
+import ReactDOM from 'react-dom'; // Utilisez correctement ReactDOM
+import App from './App.js'; // Assurez-vous d'inclure l'extension '.js'
 
 // Cibler l'élément DOM avec l'ID 'root'
 const rootElement = document.getElementById('root');
 
 if (rootElement) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
+  ReactDOM.render(
     <React.StrictMode>
       <App />
-    </React.StrictMode>
+    </React.StrictMode>,
+    rootElement
   );
 } else {
   console.error('Failed to find the root element');

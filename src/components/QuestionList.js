@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { db } from '../firebase/firebase';
+import { db } from '../firebase/firebase.js';
 import { collection, query, orderBy, onSnapshot, where } from 'firebase/firestore';
 
 const QuestionList = () => {

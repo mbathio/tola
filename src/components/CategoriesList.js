@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import CategoryCard from './CategoryCard'; // Importez le composant CategoryCard
-import './CategoriesList.css'; // Créez ce fichier pour ajouter des styles
+import CategoryCard from './CategoryCard.js'; // Ajoutez .js à la fin
+import firebase from '../firebase/firebase.js'; // Ajoutez .js à la fin
 
 const CategoriesList = () => {
   const [categories, setCategories] = useState([]);

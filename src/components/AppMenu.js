@@ -2,26 +2,27 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom'; // Utilisation de Routes à la place de Switch
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Divider } from '@material-ui/core';
-import { Menu as MenuIcon, Person as PersonIcon } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/core/styles';
-import HomeIcon from '@material-ui/icons/Home';
-import QuestionIcon from '@material-ui/icons/QuestionAnswer';
-import CategoryIcon from '@material-ui/icons/Category';
-import NotificationsIcon from '@material-ui/icons/NotificationsActive';
-import MessageIcon from '@material-ui/icons/Message';
-import SettingsIcon from '@material-ui/icons/Settings';
-import AdminIcon from '@material-ui/icons/SupervisedUserCircleRounded';
+import { Menu as MenuIcon, Person as PersonIcon } from '@material-ui/icons'; // Ajouter .js si nécessaire
+import { makeStyles } from '@material-ui/core/styles'; // Ajouter .js si nécessaire
+import HomeIcon from '@material-ui/icons/Home.js'; // Ajouter .js
+import QuestionIcon from '@material-ui/icons/QuestionAnswer.js'; // Ajouter .js
+import CategoryIcon from '@material-ui/icons/Category.js'; // Ajouter .js
+import NotificationsIcon from '@material-ui/icons/NotificationsActive.js'; // Ajouter .js
+import MessageIcon from '@material-ui/icons/Message.js'; // Ajouter .js
+import SettingsIcon from '@material-ui/icons/Settings.js'; // Ajouter .js
+import AdminIcon from '@material-ui/icons/SupervisedUserCircleRounded.js'; // Ajouter .js
 
-import Home from './Home';
-import QuestionList from './QuestionList';
-import ResponsesList from './ResponsesList';
-import CategoriesList from './CategoriesList';
-import Profile from './Profile';
-import Notifications from './Notifications';
-import Message from './Message';
-import Settings from './Settings';
-import AdminPanel from './AdminPanel';
-import CreateQuestion from './CreateQuestion'; // Assurez-vous que CreateQuestion est correctement importé
+
+import Home from './Home.js'; // Ajouter .js à toutes les importations comme celle-ci
+import QuestionList from './QuestionList.js';
+import ResponsesList from './ResponsesList.js';
+import CategoriesList from './CategoriesList.js';
+import Profile from './Profile.js';
+import Notifications from './Notifications.js';
+import Message from './Message.js';
+import Settings from './Settings.js';
+import AdminPanel from './AdminPanel.js';
+import CreateQuestion from './CreateQuestion.js';
 
 const drawerWidth = 240;
 
