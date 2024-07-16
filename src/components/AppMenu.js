@@ -2,18 +2,26 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom'; // Utilisation de Routes à la place de Switch
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Divider } from '@material-ui/core';
-import { Menu as MenuIcon, Home as HomeIcon, QuestionAnswer as QuestionIcon, Category as CategoryIcon, Person as PersonIcon, Notifications as NotificationsIcon, Message as MessageIcon, Settings as SettingsIcon, SupervisorAccount as AdminIcon } from '@material-ui/icons';
+import { Menu as MenuIcon, Person as PersonIcon } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import HomeIcon from '@material-ui/icons/Home';
+import QuestionIcon from '@material-ui/icons/QuestionAnswer';
+import CategoryIcon from '@material-ui/icons/Category';
+import NotificationsIcon from '@material-ui/icons/NotificationsActive';
+import MessageIcon from '@material-ui/icons/Message';
+import SettingsIcon from '@material-ui/icons/Settings';
+import AdminIcon from '@material-ui/icons/SupervisedUserCircleRounded';
 
 import Home from './Home';
-import QuestionsList from './QuestionsList'; // Assurez-vous que QuestionsList est correctement importé s'il n'est pas encore défini
-import ResponsesList from './ResponsesList'; // Assurez-vous que ResponsesList est correctement importé s'il n'est pas encore défini
+import QuestionList from './QuestionList';
+import ResponsesList from './ResponsesList';
 import CategoriesList from './CategoriesList';
-import Profile from './Profile'; // Assurez-vous que Profile est correctement importé s'il n'est pas encore défini
+import Profile from './Profile';
 import Notifications from './Notifications';
-import Messages from './Messages'; // Assurez-vous que Messages est correctement importé s'il n'est pas encore défini
+import Message from './Message';
 import Settings from './Settings';
 import AdminPanel from './AdminPanel';
+import CreateQuestion from './CreateQuestion'; // Assurez-vous que CreateQuestion est correctement importé
 
 const drawerWidth = 240;
 
@@ -67,6 +75,28 @@ const AppMenu = () => {
           <Typography variant="h6" noWrap>
             Tola
           </Typography>
+          <div style={{ flexGrow: 1 }} /> {/* Pour pousser le login/Profile à droite */}
+          <IconButton
+            color="inherit"
+            component={RouterLink}
+            to="/create-question"
+          >
+            <QuestionIcon />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            component={RouterLink}
+            to="/login"
+          >
+            <PersonIcon />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            component={RouterLink}
+            to="/profile"
+          >
+            <PersonIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -127,14 +157,15 @@ const AppMenu = () => {
         <Toolbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/questions" element={<QuestionsList />} />
+          <Route path="/questions" element={<QuestionList />} />
           <Route path="/responses" element={<ResponsesList />} />
           <Route path="/categories" element={<CategoriesList />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/notifications" element={<Notifications />} />
-          <Route path="/messages" element={<Messages />} />
+          <Route path="/messages" element={<Message />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/create-question" element={<CreateQuestion />} />
         </Routes>
       </main>
     </div>

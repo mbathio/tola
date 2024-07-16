@@ -32,7 +32,6 @@ const App = () => {
     <Router>
       <AppMenu /> {/* Assurez-vous qu'AppMenu est ici */}
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/create" element={<CreateQuestion />} />

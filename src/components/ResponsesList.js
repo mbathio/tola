@@ -1,11 +1,35 @@
-import React from 'react';
-import { Typography } from '@material-ui/core';
+// src/components/ResponsesList.js
+import { useEffect, useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase/firebase'; // Assurez-vous que le chemin vers votre fichier firebase.js est correct
 
 const ResponsesList = () => {
+  const [responses, setResponses] = useState([]);
+
+  useEffect(() => {
+    const fetchResponses = async () => {
+      const responseCollection = collection(db, 'answers'); // Utilisation de la collection 'responses' de votre base de données
+      const querySnapshot = await getDocs(responseCollection);
+      const fetchedResponses = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setResponses(fetchedResponses);
+    };
+
+    fetchResponses();
+  }, []);
+
   return (
     <div>
-      <Typography variant="h4">Liste des Réponses</Typography>
-      {/* Insérez ici le contenu de la liste des réponses */}
+      <h2>Liste des Réponses</h2>
+      <ul>
+        {responses.map(response => (
+          <li key={response.id}>
+            <strong>{response.title}</strong>: {response.content}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
