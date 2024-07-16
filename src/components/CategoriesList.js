@@ -1,15 +1,15 @@
+// CategoriesList.js
 import React, { useEffect, useState } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import CategoryCard from './CategoryCard.js'; // Ajoutez .js à la fin
-import firebase from '../firebase/firebase.js'; // Ajoutez .js à la fin
+import { db } from '../firebase/firebase'; // Importez db depuis firebase.js
+
+import CategoryCard from './CategoryCard'; // Assurez-vous de ne pas ajouter .js à la fin
 
 const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const categoriesCollection = firebase.firestore().collection('categories');
+      const categoriesCollection = db.collection('categories'); // Utilisez db pour accéder à la collection 'categories'
       const categoriesSnapshot = await categoriesCollection.get();
       const categoriesList = categoriesSnapshot.docs.map(doc => ({
         id: doc.id,

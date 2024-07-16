@@ -1,5 +1,4 @@
 import React from 'react';
-import './CategoryCard.css'; // Créez ce fichier pour ajouter des styles
 
 const CategoryCard = ({ category }) => {
   return (

@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom'; // Utilisation de Routes à la place de Switch
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Divider } from '@material-ui/core';
 import { Menu as MenuIcon, Person as PersonIcon } from '@material-ui/icons'; // Ajouter .js si nécessaire
-import { makeStyles } from '@material-ui/core/styles'; // Ajouter .js si nécessaire
+import { makeStyles } from '@material-ui/core/styles/index.js';
 import HomeIcon from '@material-ui/icons/Home.js'; // Ajouter .js
 import QuestionIcon from '@material-ui/icons/QuestionAnswer.js'; // Ajouter .js
 import CategoryIcon from '@material-ui/icons/Category.js'; // Ajouter .js

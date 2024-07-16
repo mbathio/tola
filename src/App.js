@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useAuthState } from 'react-firebase-hooks/auth.js';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 import Signup from './components/Signup.js';
 import Login from './components/Login.js';
