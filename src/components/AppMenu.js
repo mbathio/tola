@@ -1,4 +1,5 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Divider } from '@material-ui/core';
 import { Menu as MenuIcon, Home as HomeIcon, QuestionAnswer as QuestionIcon, Category as CategoryIcon, Person as PersonIcon, Notifications as NotificationsIcon, Message as MessageIcon, Settings as SettingsIcon, SupervisorAccount as AdminIcon } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,13 +7,7 @@ import { Link as RouterLink, Route, Switch } from 'react-router-dom';
 
 import Home from './Home';
 import QuestionsList from './QuestionsList';
-import ResponsesList from './ResponsesList';
-import CategoriesList from './CategoriesList';
-import Profile from './Profile';
-import Notifications from './Notifications';
-import Messages from './Messages';
-import Settings from './Settings';
-import AdminPanel from './AdminPanel';
+     
 
 const drawerWidth = 240;
 

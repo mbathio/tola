@@ -1,33 +1,38 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import firebase from 'firebase/app'; // Assurez-vous d'importer Firebase correctement
-import 'firebase/auth'; // Importez le module d'authentification Firebase si nécessaire
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Home from './components/Home';
 import CreateQuestion from './components/CreateQuestion';
 import QuestionList from './components/QuestionList';
+import AppMenu from './components/AppMenu'; // Assu
 
-// Initialisez Firebase avec votre configuration
 const firebaseConfig = {
-  // Vos configurations Firebase
+  apiKey: "AIzaSyCCpdUVCCz3HRumnu_vlN5cEBTelHFYBiA",
+  authDomain: "tola-14414.firebaseapp.com",
+  projectId: "tola-14414",
+  storageBucket: "tola-14414.appspot.com",
+  messagingSenderId: "18599793851",
+  appId: "1:18599793851:web:9b7d9d407a4ca7d7bc459e",
+  measurementId: "G-JZYFWV7T0J"
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
-// Récupérez l'objet d'authentification Firebase
-const auth = firebase.auth();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
 
   return (
     <Router>
+      <AppMenu /> {/* Assurez-vous qu'AppMenu est ici */}
       <Routes>
-        <Route path="/" element={<AppHome />} />
+        <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/create" element={<CreateQuestion />} />
