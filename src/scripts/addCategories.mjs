@@ -1,5 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import App from './App.js'; // Ajoutez l'extension .js si votre fichier s'appelle App.js
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyCCpdUVCCz3HRumnu_vlN5cEBTelHFYBiA",
@@ -36,42 +38,42 @@ const addCategories = async () => {
     {
         name: "Génie Civil",
         description: "Structure et construction, Géotechnique, Hydraulique, Environnement et développement durable",
-        image: "URL_DE_L_IMAGE_GENIE_MECANIQUE"
+        image: "C:/Users/HP/tola/public/logo512.png"
       },
       {
         name: "Génie Chimique et Biologique",
         description: "Chimie industrielle, Biotechnologie, Procédés chimiques, Environnement",
-        image: "URL_DE_L_IMAGE_GENIE_MECANIQUE"
+        image: "C:/Users/HP/tola/public/logo512.png"
       },
       {
         name: "Management et Sciences Économiques",
         description: "Gestion de projet, Finance, Marketing, Entrepreneuriat",
-        image: "URL_DE_L_IMAGE_GENIE_MECANIQUE"
+        image: "C:/Users/HP/tola/public/logo512.png"
       },
       {
         name: "Mathématiques et Physique",
         description: "Analyse mathématique, Physique appliquée, Statistiques, Recherche opérationnelle",
-        image: "URL_DE_L_IMAGE_GENIE_MECANIQUE"
+        image: "C:/Users/HP/tola/public/logo512.png"
       },
       {
         name: "Vie Étudiante",
         description: "Clubs et associations, Événements étudiants, Sports, Logement et vie sur le campus",
-        image: "URL_DE_L_IMAGE_GENIE_MECANIQUE"
+        image: "C:/Users/HP/tola/public/logo512.png"
       },
       {
         name: "Carrière et Développement Personnel",
         description: "Stages et opportunités professionnelles, Compétences et formation, Bourses et financement, Conseils pour les études",
-        image: "URL_DE_L_IMAGE_GENIE_MECANIQUE"
+        image: "C:/Users/HP/tola/public/logo512.png"
       },
       {
         name: "Innovation et Recherche",
         description: "Projets de recherche, Innovations technologiques, Conférences et séminaires, Partenariats industriels",
-        image: "URL_DE_L_IMAGE_GENIE_MECANIQUE"
+        image: "C:/Users/HP/tola/public/logo512.png"
       },
       {
         name: "Autres",
         description: "Questions générales, Discussions libres, Sujets d'actualité",
-        image: "URL_DE_L_IMAGE_GENIE_MECANIQUE"
+        image: "C:/Users/HP/tola/public/logo512.png"
       },
   ];
 
