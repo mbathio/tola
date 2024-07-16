@@ -2,7 +2,7 @@
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase'; // Assurez-vous d'importer correctement votre instance de db Firebase
 
-const addQuestion = async (title, content, category) => {
+const questions = async (title, content, category) => {
   try {
     const docRef = await addDoc(collection(db, 'questions'), {
       title,
@@ -16,4 +16,4 @@ const addQuestion = async (title, content, category) => {
   }
 };
 
-export { addQuestion };
+export { questions };
