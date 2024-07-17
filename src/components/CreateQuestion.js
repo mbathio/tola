@@ -1,7 +1,6 @@
-// src/components/CreateQuestion.js
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase/firebase.js';
 import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { db } from '../firebase/firebase.js';
 
 const CreateQuestion = () => {
   const [title, setTitle] = useState('');
@@ -11,9 +10,13 @@ const CreateQuestion = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const querySnapshot = await getDocs(collection(db, 'categories'));
-      const categoriesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setCategories(categoriesData);
+      try {
+        const querySnapshot = await getDocs(collection(db, 'categories'));
+        const categoriesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
     };
 
     fetchCategories();
@@ -22,12 +25,13 @@ const CreateQuestion = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await addDoc(collection(db, 'questions'), {
+      const newQuestion = {
         title,
         content,
         category,
         createdAt: new Date(),
-      });
+      };
+      await addDoc(collection(db, 'questions'), newQuestion);
       setTitle('');
       setContent('');
       setCategory('');
@@ -58,10 +62,14 @@ const CreateQuestion = () => {
       </div>
       <div>
         <label>Catégorie :</label>
-        <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          required
+        >
           <option value="">Sélectionnez une catégorie</option>
           {categories.map((cat) => (
-            <option key={cat.id} value={cat.name}>{cat.name}</option>
+            <option key={cat.id} value={cat.id}>{cat.name}</option>
           ))}
         </select>
       </div>

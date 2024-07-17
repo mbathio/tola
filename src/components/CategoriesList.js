@@ -1,10 +1,11 @@
-// src/components/CategoriesList.js
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../firebase/firebase'; // Correctement importé
+import { db } from '../firebase/firebase';
 import { makeStyles } from '@material-ui/core/styles';
+import CategoryQuestions from './CategoryQuestions'; // Importez Category
+
+
 
 const useStyles = makeStyles((theme) => ({
   categoriesList: {
@@ -46,9 +47,8 @@ const CategoriesList = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const categoriesCollection = collection(db, 'categories');
-        const categoriesSnapshot = await getDocs(categoriesCollection);
-        const categoriesList = categoriesSnapshot.docs.map(doc => ({
+        const querySnapshot = await getDocs(collection(db, 'categories'));
+        const categoriesList = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));

@@ -15,6 +15,8 @@ import CategoryPage from './components/CategoryPage';
 import AppMenu from './components/AppMenu';
 import QuestionDetail from './components/QuestionDetail';
 import AdminPanel from './components/AdminPanel'; // Importation du composant AdminPanel
+import CategoriesList from './components/CategoriesList';
+import CategoryQuestions from './components/CategoryQuestions'; // N
 import './App.css'; // Assurez-vous d'importer App.css
 
 const firebaseConfig = {
@@ -65,6 +67,8 @@ const App = () => {
         <Route path="/category/:slug" element={<CategoryPage />} />
         <Route path="/questions/:id" element={<QuestionDetail />} />
         {role === 'admin' && <Route path="/admin" element={<AdminPanel />} />}
+        <Route exact path="/" component={CategoriesList} />
+        <Route path="/categories/:categoryId" component={CategoryQuestions} />
         {/* Redirigez les utilisateurs non connectés vers la page de connexion */}
         <Route path="*" element={<Navigate to={user ? "/home" : "/login"} />} />
       </Routes>

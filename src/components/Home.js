@@ -4,22 +4,8 @@ import { Link } from 'react-router-dom';
 import { collection, getDocs, query, orderBy, limit, startAfter } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 import QuestionList from './QuestionList';
-import SideMenu from './SideMenu'; // Importez SideMenu
-import '../App.css'; // Corrected path
-
-const categories = [
-  { name: 'Informatique et télécommunications', slug: 'tech' },
-  { name: 'Génie Électrique', slug: 'electrical' },
-  { name: 'Génie Mécanique', slug: 'mechanical' },
-  { name: 'Génie Civil', slug: 'civil' },
-  { name: 'Génie Chimique et Biologique', slug: 'chemical-biological' },
-  { name: 'Management et Sciences Économiques', slug: 'management-economics' },
-  { name: 'Mathématiques et Physique', slug: 'math-physics' },
-  { name: 'Vie Étudiante', slug: 'student-life' },
-  { name: 'Carrière et Développement Personnel', slug: 'career-development' },
-  { name: 'Innovation et Recherche', slug: 'innovation-research' },
-  { name: 'Autres', slug: 'other' }
-];
+import SideMenu from './SideMenu';
+import '../App.css';
 
 const Home = () => {
   const [questions, setQuestions] = useState([]);
@@ -90,20 +76,20 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <SideMenu /> {/* Ajoutez SideMenu ici */}
+      <SideMenu />
       <div className="main-content">
-      <form>
-            <input type="text" placeholder="Rechercher sur tola..." />
-            <button type="submit">Rechercher</button>
-          </form>
         <h1>Bienvenue sur Tola</h1>
         <div>
           <h2>Questions Récentes</h2>
           <QuestionList />
-          <ul>
+          <ul className="question-list">
             {questions.map(question => (
-              <li key={question.id}>
-                <Link to={`/questions/${question.id}`}>{question.title}</Link>
+              <li key={question.id} className="question-card">
+                <Link to={`/questions/${question.id}`} className="question-link">
+                  <h3>{question.title}</h3>
+                  <p>{question.description}</p>
+                  {/* Affichez d'autres détails de la question selon votre structure de données */}
+                </Link>
               </li>
             ))}
           </ul>
@@ -113,7 +99,6 @@ const Home = () => {
         <div className="infinite-scroll-footer">
           {/* Cet élément déclenchera le chargement de plus de questions */}
         </div>
-       
         <div>
           <h2>Messages Importants</h2>
           <p>Consultez nos dernières mises à jour !</p>

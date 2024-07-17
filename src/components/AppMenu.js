@@ -23,6 +23,8 @@ import Settings from './Settings';
 import AdminPanel from './AdminPanel';
 import CreateQuestion from './CreateQuestion';
 import Signup from './Signup';
+import QuestionCard from './QuestionCard';
+
 
 const drawerWidth = 240;
 

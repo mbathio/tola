@@ -12,8 +12,12 @@ const CategoryQuestions = () => {
     const fetchCategoryName = async () => {
       try {
         const categoryDoc = await getDocs(collection(db, 'categories', categoryId));
-        if (categoryDoc.exists()) {
-          setCategoryName(categoryDoc.data().name);
+        if (!categoryDoc.empty) {
+          categoryDoc.forEach(doc => {
+            setCategoryName(doc.data().name);
+          });
+        } else {
+          console.log('No such category!');
         }
       } catch (error) {
         console.error('Error fetching category:', error);
@@ -38,8 +42,10 @@ const CategoryQuestions = () => {
         console.error('Error fetching questions:', error);
       }
     };
-
-    fetchQuestionsByCategory();
+  
+    if (categoryId) {
+      fetchQuestionsByCategory();
+    }
   }, [categoryId]);
 
   return (
@@ -49,8 +55,8 @@ const CategoryQuestions = () => {
         {questions.map(question => (
           <li key={question.id}>
             <h3>{question.title}</h3>
-            <p>{question.description}</p>
-            {/* Affichez d'autres détails de la question selon votre structure de données */}
+            <p>{question.content}</p>
+            {/* Ajoutez d'autres détails de la question selon votre structure de données */}
           </li>
         ))}
       </ul>

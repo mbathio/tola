@@ -17,53 +17,12 @@ function QuestionList() {
       const currentUserData = {
         id: 'admin1',
         displayName: 'Admin One',
-        role: 'admin'
+        role: 'admin' // Replace with actual user role logic
       };
       setCurrentUser(currentUserData);
     };
 
     fetchCurrentUser();
-  }, []);
-
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'questions'));
-        const questionsData = await Promise.all(querySnapshot.docs.map(async doc => {
-          const question = {
-            id: doc.id,
-            ...doc.data(),
-            responses: [],
-            comments: [],
-            likedBy: doc.data().likedBy || [] // Initialize likedBy if not defined
-          };
-
-          const responsesSnapshot = await getDocs(collection(doc.ref, 'responses'));
-          responsesSnapshot.forEach(responseDoc => {
-            question.responses.push({
-              id: responseDoc.id,
-              ...responseDoc.data()
-            });
-          });
-
-          const commentsSnapshot = await getDocs(collection(doc.ref, 'comments'));
-          commentsSnapshot.forEach(commentDoc => {
-            question.comments.push({
-              id: commentDoc.id,
-              ...commentDoc.data()
-            });
-          });
-
-          return question;
-        }));
-
-        setQuestions(questionsData);
-      } catch (error) {
-        console.error('Error fetching questions: ', error);
-      }
-    };
-
-    fetchQuestions();
   }, []);
 
   const fetchQuestions = async () => {
@@ -75,7 +34,7 @@ function QuestionList() {
           ...doc.data(),
           responses: [],
           comments: [],
-          likedBy: doc.data().likedBy || [] // Initialize likedBy if not defined
+          likedBy: doc.data().likedBy || []
         };
 
         const responsesSnapshot = await getDocs(collection(doc.ref, 'responses'));
@@ -103,6 +62,10 @@ function QuestionList() {
     }
   };
 
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
+
   const handleReply = (questionId) => {
     setReplyMode(prevState => ({ ...prevState, [questionId]: !prevState[questionId] }));
   };
@@ -120,7 +83,7 @@ function QuestionList() {
 
       setReplyText(prevState => ({ ...prevState, [questionId]: '' }));
       setReplyMode(prevState => ({ ...prevState, [questionId]: false }));
-      fetchQuestions();
+      fetchQuestions(); // Corrected call to fetchQuestions
     } catch (error) {
       console.error('Error submitting reply:', error);
     }
@@ -135,7 +98,7 @@ function QuestionList() {
         : [...question.likedBy, currentUser.id];
       
       await updateDoc(questionRef, { likedBy });
-      fetchQuestions();
+      fetchQuestions(); // Corrected call to fetchQuestions
     } catch (error) {
       console.error('Error liking question:', error);
     }
@@ -158,7 +121,7 @@ function QuestionList() {
 
       setCommentText(prevState => ({ ...prevState, [questionId]: '' }));
       setCommentMode(prevState => ({ ...prevState, [questionId]: false }));
-      fetchQuestions();
+      fetchQuestions(); // Corrected call to fetchQuestions
     } catch (error) {
       console.error('Error submitting comment:', error);
     }
