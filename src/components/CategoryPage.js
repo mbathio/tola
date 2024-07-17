@@ -1,43 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import QuestionList from './QuestionList'; // Assurez-vous que QuestionList est correctement importé
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../firebase/firebase';
 
 const CategoryPage = () => {
   const { slug } = useParams();
   const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Ici vous devriez faire la requête pour récupérer les questions de la catégorie
-    // Utilisez Firebase ou votre base de données pour cela
-    // Exemple de code à remplir
-    const fetchQuestionsByCategory = async () => {
-      // Implémentez la logique de récupération des questions par catégorie
-      // Par exemple, utiliser Firebase Firestore
-      // Assurez-vous d'adapter cette partie en fonction de votre configuration Firebase
+    const fetchQuestions = async () => {
+      setLoading(true);
       try {
-        // Exemple avec Firebase Firestore
-        const querySnapshot = await db.collection('questions')
-          .where('category', '==', slug)
-          .get();
-
-        const fetchedQuestions = querySnapshot.docs.map(doc => ({
+        const q = query(collection(db, 'questions'), where('category', '==', slug));
+        const querySnapshot = await getDocs(q);
+        const questionsData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
-
-        setQuestions(fetchedQuestions);
+        setQuestions(questionsData);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching questions by category: ", error);
+        console.error("Error fetching questions: ", error);
+        setLoading(false);
       }
     };
 
-    fetchQuestionsByCategory();
+    fetchQuestions();
   }, [slug]);
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <div className="category-page">
-      <h2>Questions de la catégorie : {slug}</h2>
-      <QuestionList questions={questions} />
+    <div>
+      <h2>Questions dans la catégorie: {slug}</h2>
+      <ul>
+        {questions.map(question => (
+          <li key={question.id}>
+            <h3>{question.title}</h3>
+            <p>{question.content}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

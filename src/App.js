@@ -11,6 +11,7 @@ import Login from './components/Login';
 import Home from './components/Home';
 import CreateQuestion from './components/CreateQuestion';
 import QuestionList from './components/QuestionList';
+import CategoryPage from './components/CategoryPage';
 import AppMenu from './components/AppMenu';
 import QuestionDetail from './components/QuestionDetail';
 import AdminPanel from './components/AdminPanel'; // Importation du composant AdminPanel
@@ -61,6 +62,7 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/create" element={user ? <CreateQuestion /> : <Navigate to="/login" />} />
         <Route path="/questions" element={<QuestionList />} />
+        <Route path="/category/:slug" element={<CategoryPage />} />
         <Route path="/questions/:id" element={<QuestionDetail />} />
         {role === 'admin' && <Route path="/admin" element={<AdminPanel />} />}
         {/* Redirigez les utilisateurs non connectés vers la page de connexion */}
