@@ -23,8 +23,7 @@ import Settings from './Settings';
 import AdminPanel from './AdminPanel';
 import CreateQuestion from './CreateQuestion';
 import Signup from './Signup';
-import QuestionCard from './QuestionCard';
-
+import '../App.css'; // Importation du fichier CSS
 
 const drawerWidth = 240;
 
@@ -79,7 +78,7 @@ const AppMenu = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className="app-container"> {/* Utilisation de la classe app-container */}
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <IconButton
@@ -175,7 +174,7 @@ const AppMenu = () => {
           </List>
         </div>
       </Drawer>
-      <main className={classes.content}>
+      <main className="main-content"> {/* Utilisation de la classe main-content */}
         <Toolbar />
         <Routes>
           <Route path="/" element={<Home />} />

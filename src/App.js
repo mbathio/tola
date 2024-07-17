@@ -4,6 +4,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import 'firebase/compat/firestore';
 
 import Signup from './components/Signup';
@@ -16,7 +17,7 @@ import AppMenu from './components/AppMenu';
 import QuestionDetail from './components/QuestionDetail';
 import AdminPanel from './components/AdminPanel'; // Importation du composant AdminPanel
 import CategoriesList from './components/CategoriesList';
-import CategoryQuestions from './components/CategoryQuestions'; // N
+import CategoryQuestions from './components/CategoryQuestions';
 import './App.css'; // Assurez-vous d'importer App.css
 
 const firebaseConfig = {
@@ -32,6 +33,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+  typography: {
+    fontFamily: 'Roboto, Arial, sans-serif',
+  },
+});
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -56,23 +71,25 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <AppMenu />
-      <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/create" element={user ? <CreateQuestion /> : <Navigate to="/login" />} />
-        <Route path="/questions" element={<QuestionList />} />
-        <Route path="/category/:slug" element={<CategoryPage />} />
-        <Route path="/questions/:id" element={<QuestionDetail />} />
-        {role === 'admin' && <Route path="/admin" element={<AdminPanel />} />}
-        <Route exact path="/" component={CategoriesList} />
-        <Route path="/categories/:categoryId" component={CategoryQuestions} />
-        {/* Redirigez les utilisateurs non connectés vers la page de connexion */}
-        <Route path="*" element={<Navigate to={user ? "/home" : "/login"} />} />
-      </Routes>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <AppMenu />
+        <Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/create" element={user ? <CreateQuestion /> : <Navigate to="/login" />} />
+          <Route path="/questions" element={<QuestionList />} />
+          <Route path="/category/:slug" element={<CategoryPage />} />
+          <Route path="/questions/:id" element={<QuestionDetail />} />
+          {role === 'admin' && <Route path="/admin" element={<AdminPanel />} />}
+          <Route path="/" element={<CategoriesList />} />
+          <Route path="/categories/:categoryId" element={<CategoryQuestions />} />
+          {/* Redirigez les utilisateurs non connectés vers la page de connexion */}
+          <Route path="*" element={<Navigate to={user ? "/home" : "/login"} />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 };
 
