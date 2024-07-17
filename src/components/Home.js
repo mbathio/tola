@@ -1,7 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { db } from './firebase';
 
 const Home = () => {
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    // Fetch questions from Firestore
+    const fetchQuestions = async () => {
+      try {
+        const questionsSnapshot = await db.collection('questions').get();
+        const questionsList = questionsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setQuestions(questionsList);
+      } catch (error) {
+        console.error("Error fetching questions: ", error);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
+
   return (
     <div>
       <h1>Bienvenue sur Tola</h1>
@@ -10,9 +31,11 @@ const Home = () => {
         <h2>Questions Récentes</h2>
         {/* Liste des questions récentes */}
         <ul>
-          <li><Link to="/questions/1">Question 1</Link></li>
-          <li><Link to="/questions/2">Question 2</Link></li>
-          <li><Link to="/questions/3">Question 3</Link></li>
+          {questions.map(question => (
+            <li key={question.id}>
+              <Link to={`/questions/${question.id}`}>{question.title}</Link>
+            </li>
+          ))}
         </ul>
       </div>
       
