@@ -1,8 +1,9 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import 'firebase/compat/firestore';
 
 import Signup from './components/Signup';
@@ -12,6 +13,7 @@ import CreateQuestion from './components/CreateQuestion';
 import QuestionList from './components/QuestionList';
 import AppMenu from './components/AppMenu';
 import QuestionDetail from './components/QuestionDetail';
+import AdminPanel from './components/AdminPanel'; // Importation du composant AdminPanel
 import './App.css'; // Assurez-vous d'importer App.css
 
 const firebaseConfig = {
@@ -26,9 +28,24 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const firestore = getFirestore(app);
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      if (user) {
+        const userDoc = await getDoc(doc(firestore, 'users', user.uid));
+        if (userDoc.exists()) {
+          setRole(userDoc.data().role);
+        }
+      }
+    };
+
+    fetchUserRole();
+  }, [user]);
 
   if (loading) {
     // Afficher un indicateur de chargement si l'état d'authentification est en cours de chargement
@@ -42,9 +59,12 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/create" element={user ? <CreateQuestion /> : <Login />} />
+        <Route path="/create" element={user ? <CreateQuestion /> : <Navigate to="/login" />} />
         <Route path="/questions" element={<QuestionList />} />
         <Route path="/questions/:id" element={<QuestionDetail />} />
+        {role === 'admin' && <Route path="/admin" element={<AdminPanel />} />}
+        {/* Redirigez les utilisateurs non connectés vers la page de connexion */}
+        <Route path="*" element={<Navigate to={user ? "/home" : "/login"} />} />
       </Routes>
     </Router>
   );

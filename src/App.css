@@ -71,3 +71,38 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+/* src/App.css */
+
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  margin-left: 200px; /* Ajustement pour éviter que le contenu ne soit sous le SideMenu */
+}
+
+.side-menu {
+  width: 200px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  right: 0;
+  top: 60px; /* Position sous la barre d'en-tête */
+  bottom: 0;
+}
+
+.app-menu {
+  width: 200px;
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}

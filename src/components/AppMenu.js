@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom'; // Utilisation de Routes à la place de Switch
-import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Divider } from '@material-ui/core';
-import { Menu as MenuIcon, Person as PersonIcon } from '@material-ui/icons'; // Ajouter .js si nécessaire
+import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Divider, Button } from '@material-ui/core';
+import { Menu as MenuIcon, Person as PersonIcon } from '@material-ui/icons'; // Ajouter l'importation correcte de PersonIcon
 import { makeStyles } from '@material-ui/core/styles/index.js';
 import HomeIcon from '@material-ui/icons/Home.js'; // Ajouter .js
 import QuestionIcon from '@material-ui/icons/QuestionAnswer.js'; // Ajouter .js
@@ -11,7 +11,6 @@ import NotificationsIcon from '@material-ui/icons/NotificationsActive.js'; // Aj
 import MessageIcon from '@material-ui/icons/Message.js'; // Ajouter .js
 import SettingsIcon from '@material-ui/icons/Settings.js'; // Ajouter .js
 import AdminIcon from '@material-ui/icons/SupervisedUserCircleRounded.js'; // Ajouter .js
-
 
 import Home from './Home.js'; // Ajouter .js à toutes les importations comme celle-ci
 import QuestionList from './QuestionList.js';
@@ -47,6 +46,21 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  menuButton: {
+    backgroundColor: theme.palette.primary.main,
+    color: '#fff',
+    border: '1px solid #fff',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark,
+    },
+    textTransform: 'capitalize', // Met en majuscule la première lettre
+  },
+  toolbar: {
+    ...theme.mixins.toolbar,
+    '& .MuiTypography-root': {
+      fontSize: '0.875rem', // Réduction de la taille de la police
+    },
+  },
 }));
 
 const AppMenu = () => {
@@ -64,7 +78,7 @@ const AppMenu = () => {
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
+        <Toolbar className={classes.toolbar}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -77,20 +91,26 @@ const AppMenu = () => {
             Tola
           </Typography>
           <div style={{ flexGrow: 1 }} /> {/* Pour pousser le login/Profile à droite */}
-          <IconButton
-            color="inherit"
-            component={RouterLink}
-            to="/create-question"
-          >
-            <QuestionIcon />
-          </IconButton>
-          <IconButton
-            color="inherit"
-            component={RouterLink}
-            to="/login"
-          >
-            <PersonIcon />
-          </IconButton>
+          <form>
+            <input type="text" placeholder="Rechercher une question..." />
+            <button type="submit">Rechercher</button>
+          </form>
+          <form action="/create-question">
+            <Button
+              type="submit"
+              className={classes.menuButton}
+            >
+              Ajouter une question
+            </Button>
+          </form>
+          <form action="/login">
+            <Button
+              type="submit"
+              color="inherit"
+            >
+              Connexion | S'inscrire
+            </Button>
+          </form>
           <IconButton
             color="inherit"
             component={RouterLink}

@@ -5,6 +5,7 @@ import { collection, getDocs, query, orderBy, limit, startAfter } from 'firebase
 import { db } from '../firebase/firebase';
 import QuestionList from './QuestionList';
 import SideMenu from './SideMenu'; // Importez SideMenu
+import '../App.css'; // Corrected path
 
 const categories = [
   { name: 'Informatique et télécommunications', slug: 'tech' },
@@ -91,6 +92,10 @@ const Home = () => {
     <div className="home-container">
       <SideMenu /> {/* Ajoutez SideMenu ici */}
       <div className="main-content">
+      <form>
+            <input type="text" placeholder="Rechercher sur tola..." />
+            <button type="submit">Rechercher</button>
+          </form>
         <h1>Bienvenue sur Tola</h1>
         <div>
           <h2>Questions Récentes</h2>
@@ -108,13 +113,7 @@ const Home = () => {
         <div className="infinite-scroll-footer">
           {/* Cet élément déclenchera le chargement de plus de questions */}
         </div>
-        <div>
-          <h2>Rechercher une Question</h2>
-          <form>
-            <input type="text" placeholder="Rechercher une question..." />
-            <button type="submit">Rechercher</button>
-          </form>
-        </div>
+       
         <div>
           <h2>Messages Importants</h2>
           <p>Consultez nos dernières mises à jour !</p>
