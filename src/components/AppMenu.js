@@ -12,6 +12,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import AdminIcon from '@material-ui/icons/SupervisedUserCircleRounded';
 
 import Home from './Home';
+import Login from './Login';
 import QuestionList from './QuestionList';
 import ResponsesList from './ResponsesList';
 import CategoriesList from './CategoriesList';
@@ -21,6 +22,7 @@ import Message from './Message';
 import Settings from './Settings';
 import AdminPanel from './AdminPanel';
 import CreateQuestion from './CreateQuestion';
+import Signup from './Signup';
 
 const drawerWidth = 240;
 
@@ -179,6 +181,8 @@ const AppMenu = () => {
           <Route path="/responses" element={<ResponsesList />} />
           <Route path="/categories" element={<CategoriesList />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/messages" element={<Message />} />
           <Route path="/settings" element={<Settings />} />
