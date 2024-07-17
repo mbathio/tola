@@ -1,46 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import { db } from '../firebase/firebase.js';
-import { collection, query, orderBy, onSnapshot, where } from 'firebase/firestore';
+import { db } from '../firebase/firebase'; // Assurez-vous que le chemin est correct
+import { collection, getDocs } from 'firebase/firestore';
 
-const QuestionList = () => {
+function QuestionList() {
   const [questions, setQuestions] = useState([]);
-  const [category, setCategory] = useState('');
 
   useEffect(() => {
-    const q = category 
-      ? query(collection(db, 'questions'), where('category', '==', category), orderBy('createdAt', 'desc'))
-      : query(collection(db, 'questions'), orderBy('createdAt', 'desc'));
+    // Fonction pour récupérer les questions depuis Firestore
+    const fetchQuestions = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'questions'));
+        const questionsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setQuestions(questionsData);
+      } catch (error) {
+        console.error('Error fetching questions: ', error);
+      }
+    };
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const questionsData = [];
-      querySnapshot.forEach((doc) => {
-        questionsData.push({ ...doc.data(), id: doc.id });
-      });
-      setQuestions(questionsData);
-    });
-
-    return () => unsubscribe();
-  }, [category]);
+    fetchQuestions();
+  }, []); // Le tableau vide assure que useEffect s'exécute une seule fois au montage
 
   return (
     <div>
-      <h1>Liste des Questions</h1>
-      <select onChange={(e) => setCategory(e.target.value)} value={category}>
-        <option value="">Toutes les catégories</option>
-        <option value="Technologie">Technologie</option>
-        <option value="Science">Science</option>
-        <option value="Mathématiques">Mathématiques</option>
-        <option value="Histoire">Histoire</option>
-      </select>
-      {questions.map((question) => (
-        <div key={question.questionId}>
-          <h2>{question.title}</h2>
-          <p>{question.content}</p>
-          <p><strong>Catégorie:</strong> {question.category}</p>
-        </div>
-      ))}
+      <h2>Liste des questions</h2>
+      <ul>
+        {questions.map(question => (
+          <li key={question.id}>
+            <h3>{question.title}</h3>
+            <p>Catégorie: {question.category}</p>
+            <h4>Réponses:</h4>
+            <ul>
+              {question.responses?.map(response => (
+                <li key={response.id}>
+                  <p>{response.text}</p>
+                  <p>Auteur: {response.author}</p>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
     </div>
   );
-};
+}
 
 export default QuestionList;

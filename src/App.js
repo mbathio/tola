@@ -3,13 +3,16 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import 'firebase/compat/firestore';
 
-import Signup from './components/Signup.js';
-import Login from './components/Login.js';
-import Home from './components/Home.js';
-import CreateQuestion from './components/CreateQuestion.js';
-import QuestionList from './components/QuestionList.js';
-import AppMenu from './components/AppMenu.js';
+import Signup from './components/Signup';
+import Login from './components/Login';
+import Home from './components/Home';
+import CreateQuestion from './components/CreateQuestion';
+import QuestionList from './components/QuestionList';
+import AppMenu from './components/AppMenu';
+import QuestionDetail from './components/QuestionDetail';
+import './App.css'; // Assurez-vous d'importer App.css
 
 const firebaseConfig = {
   apiKey: "AIzaSyCCpdUVCCz3HRumnu_vlN5cEBTelHFYBiA",
@@ -27,18 +30,24 @@ const auth = getAuth(app);
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
 
+  if (loading) {
+    // Afficher un indicateur de chargement si l'état d'authentification est en cours de chargement
+    return <div>Loading...</div>;
+  }
+
   return (
     <Router>
-    <AppMenu />
-    <Routes>
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/create" element={<CreateQuestion />} />
-      <Route path="/questions" element={<QuestionList />} />
-    </Routes>
-  </Router>
-);
+      <AppMenu />
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/create" element={user ? <CreateQuestion /> : <Login />} />
+        <Route path="/questions" element={<QuestionList />} />
+        <Route path="/questions/:id" element={<QuestionDetail />} />
+      </Routes>
+    </Router>
+  );
 };
 
 export default App;

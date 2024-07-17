@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { db } from './firebase';
+import { db } from '../firebase/firebase'; // Seul db est nécessaire ici
 
 const QuestionDetail = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Récupère l'id de la route
   const [question, setQuestion] = useState(null);
   const [answers, setAnswers] = useState([]);
 
   useEffect(() => {
-    // Fetch question and its answers from Firestore
     const fetchQuestionAndAnswers = async () => {
       try {
         // Fetch question
-        const questionDoc = await db.collection('questions').doc(id).get();
+        const questionDoc = await db.collection('questions').doc(id).get(); // Utilise id ici
         setQuestion({ id: questionDoc.id, ...questionDoc.data() });
 
         // Fetch answers
-        const answersSnapshot = await db.collection('answers').where('questionId', '==', id).get();
+        const answersSnapshot = await db.collection('answers').where('questionId', '==', id).get(); // Utilise id ici
         const answersList = answersSnapshot.docs.map(doc => ({
-          id: doc.id,
+          id: doc.id, // Utilisez doc.id pour l'identifiant unique de la réponse
           ...doc.data()
         }));
         setAnswers(answersList);
@@ -38,8 +37,8 @@ const QuestionDetail = () => {
           <p>{question.content}</p>
           <h2>Réponses</h2>
           <ul>
-            {answers.map(answer => (
-              <li key={answer.answersid}>{answer.content}</li>
+            {answers.map(answers => (
+              <li key={answers.id}>{answers.content}</li>
             ))}
           </ul>
         </>
