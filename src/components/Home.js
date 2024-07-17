@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { db } from './firebase';
+import { db, auth } from '../firebase/firebase';
+
 
 const Home = () => {
   const [questions, setQuestions] = useState([]);
