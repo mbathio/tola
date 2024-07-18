@@ -1,9 +1,9 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Utilisez useNavigate au lieu de useHistory
 import { auth, db } from '../firebase/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
+import '../App.css'; // Importez votre fichier CSS global
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -41,7 +41,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Connexion</h2>
       <form onSubmit={handleLogin}>
         <div>
@@ -62,7 +62,7 @@ const Login = () => {
             required
           />
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p className="error-message">{error}</p>}
         <button type="submit">Se connecter</button>
       </form>
       <p>Pas encore de compte? <a href="/signup">Inscrivez-vous ici</a></p>

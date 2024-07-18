@@ -1,60 +1,87 @@
-/* src/App.css */
-.App {
-  text-align: center;
-}
-
+/* Styles pour le container principal et le contenu */
 .home-container {
   display: flex;
+  padding: 20px;
 }
 
 .main-content {
   flex: 1;
+  background-color: #f9f9f9;
   padding: 20px;
-  overflow-y: auto;
-  margin-left: 200px; /* Ajustement pour éviter que le contenu ne soit sous le SideMenu */
-}
-
-.question-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.question-card {
-  width: 100%;
-  max-width: 300px;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #fff;
+  margin-left: 20px; /* Marge de base à gauche */
+  border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+}
+/* App.css */
+.question-list-container {
+  margin: 20px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.question-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.question-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
-.question-link {
-  text-decoration: none;
-  color: inherit;
+.question-item:hover {
+  background-color: #f0f0f0;
 }
 
-.question-link h3 {
-  margin: 0;
-  font-size: 18px;
-  color: #333;
+.question-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
-.question-link p {
-  margin: 10px 0 0;
+.question-details {
+  font-size: 0.9rem;
   color: #666;
 }
 
+
 .infinite-scroll-footer {
-  height: 20px;
+  height: 40px; /* Hauteur du footer de scroll infini */
+  margin-top: 20px;
 }
 
+/* Styles pour le SideMenu */
+.side-menu {
+  width: 240px; /* Largeur initiale */
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.side-menu h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.side-menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.side-menu li {
+  margin-bottom: 10px;
+}
+
+.side-menu a {
+  text-decoration: none;
+  color: #555;
+}
+
+.side-menu a:hover {
+  text-decoration: underline;
+}
 .category-card {
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -137,4 +164,299 @@
 .search-form input {
   padding: 5px;
   margin-right: 5px;
+}
+/* App.css */
+.login-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container form div {
+  margin-bottom: 10px;
+}
+
+.login-container form label {
+  font-weight: bold;
+}
+
+.login-container form input[type="email"],
+.login-container form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-container form button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-container form button:hover {
+  background-color: #0056b3;
+}
+
+.login-container p {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.login-container p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-container p a:hover {
+  text-decoration: underline;
+}
+
+.login-container .error-message {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+/* App.css */
+.signup-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.signup-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.signup-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-container form div {
+  margin-bottom: 10px;
+}
+
+.signup-container form label {
+  font-weight: bold;
+}
+
+.signup-container form input[type="text"],
+.signup-container form input[type="email"],
+.signup-container form input[type="password"],
+.signup-container form select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.signup-container form button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.signup-container form button:hover {
+  background-color: #0056b3;
+}
+
+.signup-container p {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.signup-container p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.signup-container p a:hover {
+  text-decoration: underline;
+}
+
+.signup-container .error-message {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+/* App.css */
+.profile-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-container p {
+  margin-bottom: 10px;
+}
+
+.profile-container button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.profile-container button:hover {
+  background-color: #c82333;
+}
+/* App.css */
+
+.create-question-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.create-question-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.create-question-form input,
+.create-question-form textarea,
+.create-question-form select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.create-question-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create-question-form button:hover {
+  background-color: #0056b3;
+}
+/* App.css */
+/* App.css */
+
+/* Styles spécifiques pour l'en-tête de la page Home */
+.home-header {
+  background-color: #1976d2;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.home-header .search-form {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Place le formulaire de recherche à droite */
+}
+
+.home-header .search-form input[type="text"] {
+  padding: 8px;
+  margin-right: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 250px; /* Largeur du champ de recherche */
+}
+
+.home-header .search-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.home-header .search-form button:hover {
+  background-color: #0056b3;
+}
+/* SideMenu.css */
+
+.side-menu {
+  background-color: #f0f0f0; /* Couleur de fond du menu */
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+.side-menu h2 {
+  font-size: 1.2rem; /* Taille de la police du titre */
+  margin-bottom: 12px; /* Espacement en bas */
+}
+
+.side-menu ul {
+  list-style-type: none; /* Pas de puces */
+  padding: 0;
+  margin: 0;
+}
+
+.side-menu ul li {
+  margin-bottom: 8px; /* Espacement entre les éléments de la liste */
+}
+
+.side-menu ul li a {
+  color: #333; /* Couleur du texte des liens */
+  text-decoration: none; /* Pas de soulignement */
+  font-size: 1rem; /* Taille de la police des liens */
+}
+
+.side-menu ul li a:hover {
+  color: #007bff; /* Couleur du texte des liens au survol */
 }

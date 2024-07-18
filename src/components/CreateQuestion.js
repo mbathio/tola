@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase.js';
+import '../App.css'; // Importation du fichier App.css pour les styles
 
 const CreateQuestion = () => {
   const [title, setTitle] = useState('');
@@ -42,7 +43,7 @@ const CreateQuestion = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="create-question-form" onSubmit={handleSubmit}>
       <div>
         <label>Titre :</label>
         <input

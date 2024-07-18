@@ -3,9 +3,6 @@ import { Link } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 import { makeStyles } from '@material-ui/core/styles';
-import CategoryQuestions from './CategoryQuestions'; // Importez Category
-
-
 
 const useStyles = makeStyles((theme) => ({
   categoriesList: {
@@ -16,13 +13,13 @@ const useStyles = makeStyles((theme) => ({
   },
   categoryCard: {
     position: 'relative',
-    width: '22%', // Ajustez la largeur pour qu'il y ait 4 catégories par ligne
+    width: '22%',
     height: '200px',
     margin: theme.spacing(1),
     borderRadius: '10px',
     overflow: 'hidden',
     boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-    textDecoration: 'none', // Pour retirer la décoration de lien
+    textDecoration: 'none',
   },
   categoryImage: {
     width: '100%',

@@ -1,6 +1,20 @@
+// AppMenu.js
+
 import React from 'react';
 import { Link as RouterLink, Routes, Route } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Divider, Button } from '@material-ui/core';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+  Button,
+} from '@material-ui/core';
 import { Menu as MenuIcon, Person as PersonIcon } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
@@ -23,7 +37,7 @@ import Settings from './Settings';
 import AdminPanel from './AdminPanel';
 import CreateQuestion from './CreateQuestion';
 import Signup from './Signup';
-import '../App.css'; // Importation du fichier CSS
+import '../App.css';
 
 const drawerWidth = 240;
 
@@ -78,15 +92,10 @@ const AppMenu = () => {
   };
 
   return (
-    <div className="app-container"> {/* Utilisation de la classe app-container */}
+    <div className="app-container">
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-          >
+          <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start">
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
@@ -97,25 +106,13 @@ const AppMenu = () => {
             <input type="text" placeholder="Rechercher une question..." />
             <button type="submit">Rechercher</button>
           </form>
-          <Button
-            component={RouterLink}
-            to="/create-question"
-            className={classes.menuButton}
-          >
+          <Button component={RouterLink} to="/create-question" className={classes.menuButton}>
             Ajouter une question
           </Button>
-          <Button
-            component={RouterLink}
-            to="/login"
-            color="inherit"
-          >
+          <Button component={RouterLink} to="/login" color="inherit">
             Connexion | S'inscrire
           </Button>
-          <IconButton
-            color="inherit"
-            component={RouterLink}
-            to="/profile"
-          >
+          <IconButton color="inherit" component={RouterLink} to="/profile">
             <PersonIcon />
           </IconButton>
         </Toolbar>
@@ -133,62 +130,80 @@ const AppMenu = () => {
         <div className={classes.drawerContainer}>
           <List>
             <ListItem button component={RouterLink} to="/">
-              <ListItemIcon><HomeIcon /></ListItemIcon>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
               <ListItemText primary="Accueil" />
             </ListItem>
             <ListItem button component={RouterLink} to="/questions">
-              <ListItemIcon><QuestionIcon /></ListItemIcon>
+              <ListItemIcon>
+                <QuestionIcon />
+              </ListItemIcon>
               <ListItemText primary="Questions" />
             </ListItem>
             <ListItem button component={RouterLink} to="/responses">
-              <ListItemIcon><QuestionIcon /></ListItemIcon>
+              <ListItemIcon>
+                <QuestionIcon />
+              </ListItemIcon>
               <ListItemText primary="Réponses" />
             </ListItem>
             <ListItem button component={RouterLink} to="/categories">
-              <ListItemIcon><CategoryIcon /></ListItemIcon>
+              <ListItemIcon>
+                <CategoryIcon />
+              </ListItemIcon>
               <ListItemText primary="Catégories" />
             </ListItem>
             <ListItem button component={RouterLink} to="/profile">
-              <ListItemIcon><PersonIcon /></ListItemIcon>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
               <ListItemText primary="Profil" />
             </ListItem>
           </List>
           <Divider />
           <List>
             <ListItem button component={RouterLink} to="/notifications">
-              <ListItemIcon><NotificationsIcon /></ListItemIcon>
+              <ListItemIcon>
+                <NotificationsIcon />
+              </ListItemIcon>
               <ListItemText primary="Notifications" />
             </ListItem>
             <ListItem button component={RouterLink} to="/messages">
-              <ListItemIcon><MessageIcon /></ListItemIcon>
+              <ListItemIcon>
+                <MessageIcon />
+              </ListItemIcon>
               <ListItemText primary="Messages" />
             </ListItem>
             <ListItem button component={RouterLink} to="/settings">
-              <ListItemIcon><SettingsIcon /></ListItemIcon>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
               <ListItemText primary="Paramètres" />
             </ListItem>
             <ListItem button component={RouterLink} to="/admin">
-              <ListItemIcon><AdminIcon /></ListItemIcon>
+              <ListItemIcon>
+                <AdminIcon />
+              </ListItemIcon>
               <ListItemText primary="Administration" />
             </ListItem>
           </List>
         </div>
       </Drawer>
-      <main className="main-content"> {/* Utilisation de la classe main-content */}
+      <main className="main-content">
         <Toolbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/questions" element={<QuestionList />} />
           <Route path="/responses" element={<ResponsesList />} />
           <Route path="/categories" element={<CategoriesList />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/messages" element={<Message />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="/create-question" element={<CreateQuestion />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </main>
     </div>

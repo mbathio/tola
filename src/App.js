@@ -37,14 +37,36 @@ const firestore = getFirestore(app);
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2',
+      main: '#00a0dc', // Couleur bleue primaire de Quora
     },
     secondary: {
-      main: '#dc004e',
+      main: '#bdbdbd', // Couleur grise secondaire de Quora
+    },
+    background: {
+      default: '#f5f5f5', // Couleur de fond par défaut de Quora
     },
   },
   typography: {
-    fontFamily: 'Roboto, Arial, sans-serif',
+    fontFamily: 'Arial, sans-serif', // Police par défaut de Quora
+    h1: {
+      fontSize: '2.5rem', // Taille de police pour les titres de grande taille
+      fontWeight: 'bold',
+      color: '#333', // Couleur de texte principale
+    },
+    h2: {
+      fontSize: '2rem', // Taille de police pour les sous-titres
+      fontWeight: 'bold',
+      color: '#333',
+    },
+    h3: {
+      fontSize: '1.5rem', // Taille de police pour les titres de section
+      fontWeight: 'bold',
+      color: '#333',
+    },
+    body1: {
+      fontSize: '1rem', // Taille de police du corps de texte
+      color: '#666', // Couleur de texte secondaire
+    },
   },
 });
 

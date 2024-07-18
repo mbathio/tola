@@ -1,8 +1,8 @@
-// src/components/Signup.js
 import React, { useState } from 'react';
 import { auth, db } from '../firebase/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
+import '../App.css'; // Importez votre fichier CSS global
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -31,7 +31,7 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <div className="signup-container">
       <h2>Inscription</h2>
       <form onSubmit={handleSignup}>
         <div>
@@ -70,7 +70,7 @@ const Signup = () => {
             </select>
           </div>
         )}
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p className="error-message">{error}</p>}
         <button type="submit">S'inscrire</button>
       </form>
     </div>

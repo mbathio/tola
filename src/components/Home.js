@@ -1,4 +1,3 @@
-// src/components/Home.js
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { collection, getDocs, query, orderBy, limit, startAfter } from 'firebase/firestore';
@@ -76,7 +75,6 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <SideMenu />
       <div className="main-content">
         <h1>Bienvenue sur Tola</h1>
         <div>
@@ -104,6 +102,7 @@ const Home = () => {
           <p>Consultez nos dernières mises à jour !</p>
         </div>
       </div>
+      <SideMenu className="side-menu" />
     </div>
   );
 };

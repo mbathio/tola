@@ -1,65 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 
 const CategoryQuestions = () => {
   const { categoryId } = useParams();
-  const [categoryName, setCategoryName] = useState('');
   const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategoryName = async () => {
+    const fetchQuestions = async () => {
       try {
-        const categoryDoc = await getDocs(collection(db, 'categories', categoryId));
-        if (!categoryDoc.empty) {
-          categoryDoc.forEach(doc => {
-            setCategoryName(doc.data().name);
-          });
-        } else {
-          console.log('No such category!');
-        }
-      } catch (error) {
-        console.error('Error fetching category:', error);
-      }
-    };
-
-    fetchCategoryName();
-  }, [categoryId]);
-
-  useEffect(() => {
-    const fetchQuestionsByCategory = async () => {
-      try {
-        const questionsCollection = collection(db, 'questions');
-        const q = query(questionsCollection, where('category', '==', categoryId));
-        const questionsSnapshot = await getDocs(q);
-        const questionsList = questionsSnapshot.docs.map(doc => ({
+        console.log(`Fetching questions for category: ${categoryId}`);
+        const q = query(collection(db, 'questions'), where('categoryId', '==', categoryId));
+        const querySnapshot = await getDocs(q);
+        const questionsList = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
+        console.log(`Fetched questions:`, questionsList);
         setQuestions(questionsList);
       } catch (error) {
         console.error('Error fetching questions:', error);
+      } finally {
+        setLoading(false);
       }
     };
-  
-    if (categoryId) {
-      fetchQuestionsByCategory();
-    }
+
+    fetchQuestions();
   }, [categoryId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-      <h1>Questions de la catégorie {categoryName}</h1>
-      <ul>
-        {questions.map(question => (
-          <li key={question.id}>
-            <h3>{question.title}</h3>
-            <p>{question.content}</p>
-            {/* Ajoutez d'autres détails de la question selon votre structure de données */}
-          </li>
-        ))}
-      </ul>
+      <h2>Questions for Category: {categoryId}</h2>
+      {questions.length > 0 ? (
+        <ul>
+          {questions.map(question => (
+            <li key={question.id}>{question.title}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>No questions found for this category.</p>
+      )}
     </div>
   );
 };
