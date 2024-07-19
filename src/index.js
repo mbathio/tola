@@ -1,12 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import AppMenu from './components/AppMenu';
 import './index.css';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <BrowserRouter>
     <AppMenu />
-  </BrowserRouter>,
-  document.getElementById('root')
+  </BrowserRouter>
 );

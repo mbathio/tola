@@ -32,6 +32,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 const firestore = getFirestore(app);
 
 const theme = createTheme({
@@ -106,7 +107,7 @@ const App = () => {
           <Route path="/questions/:id" element={<QuestionDetail />} />
           {role === 'admin' && <Route path="/admin" element={<AdminPanel />} />}
           <Route path="/" element={<CategoriesList />} />
-          <Route path="/categories/:categoryId" element={<CategoryQuestions />} />
+          <Route path="/categories/:Id" element={<CategoryQuestions />} />
           {/* Redirigez les utilisateurs non connectés vers la page de connexion */}
           <Route path="*" element={<Navigate to={user ? "/home" : "/login"} />} />
         </Routes>
@@ -114,5 +115,7 @@ const App = () => {
     </ThemeProvider>
   );
 };
+
+export { db, auth };
 
 export default App;

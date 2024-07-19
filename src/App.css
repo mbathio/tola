@@ -13,37 +13,120 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 /* App.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #e9ecef;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
 .question-list-container {
-  margin: 20px;
-  padding: 10px;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 800px;
   background-color: #f5f5f5;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #333; /* Couleur de la police */
 }
 
 .question-item {
-  padding: 15px;
-  margin-bottom: 10px;
+  padding: 20px;
+  margin-bottom: 15px;
   background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .question-item:hover {
   background-color: #f0f0f0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .question-title {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  color: #000; /* Changer la couleur en noir */
+  text-decoration: none; /* Enlever le soulignement */
+  transition: color 0.3s ease;
+}
+
+.question-title:hover {
+  color: #333; /* Changer la couleur au survol si nécessaire */
 }
 
 .question-details {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #666;
 }
+
+.button-group {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+button, .MuiButton-root {
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover, .MuiButton-root:hover {
+  background-color: #0056b3;
+  color: #fff;
+}
+
+.reply-form, .comment-form {
+  margin-top: 20px;
+}
+
+.reply-form textarea, .comment-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.reply-form textarea:focus, .comment-form textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .question-list-container {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .question-item {
+    padding: 15px;
+  }
+
+  .question-title {
+    font-size: 1.2rem;
+  }
+
+  .question-details {
+    font-size: 0.9rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  button, .MuiButton-root {
+    font-size: 0.9rem;
+  }
+}
+
 
 
 .infinite-scroll-footer {
@@ -314,41 +397,64 @@
   margin-top: 10px;
 }
 /* App.css */
+
+/* Styles pour le conteneur du profil */
 .profile-container {
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 800px; /* Augmenter la largeur maximale pour plus d'espace */
+  margin: 20px auto; /* Espacement vertical pour la mise en page */
+  padding: 30px; /* Augmenter le padding pour plus de confort */
+  border: 1px solid #ddd; /* Couleur de bordure plus douce */
+  border-radius: 12px; /* Bords plus arrondis */
+  background-color: #f9f9f9; /* Couleur de fond légèrement grise */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre plus profonde pour un effet de flottement */
 }
 
+/* Styles pour le titre du profil */
 .profile-container h2 {
   text-align: center;
   margin-bottom: 20px;
+  font-size: 24px; /* Taille du texte plus grande */
+  color: #333; /* Couleur de texte sombre pour un meilleur contraste */
 }
 
+/* Styles pour les paragraphes du profil */
 .profile-container p {
-  margin-bottom: 10px;
+  margin-bottom: 15px; /* Espacement plus généreux */
+  font-size: 16px; /* Taille de police plus lisible */
+  color: #555; /* Couleur de texte plus douce */
 }
 
+/* Styles pour le bouton de déconnexion */
 .profile-container button {
   display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  font-size: 16px;
-  background-color: #dc3545;
+  width: 20%;
+  padding: 12px; /* Augmenter le padding pour un bouton plus grand */
+  margin-top: 20px; /* Espacement plus important au-dessus du bouton */
+  font-size: 18px; /* Taille du texte plus grande pour le bouton */
+  background-color: #dc3545; /* Couleur de fond du bouton */
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px; /* Bords du bouton plus arrondis */
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s; /* Effet de transition pour l'animation */
 }
 
+/* Styles pour le bouton au survol */
 .profile-container button:hover {
-  background-color: #c82333;
+  background-color: #c82333; /* Couleur du bouton au survol */
+  transform: scale(1.05); /* Agrandissement léger du bouton au survol */
 }
+
+/* Styles pour le lien de connexion */
+.profile-container a {
+  color: #007bff; /* Couleur du lien */
+  text-decoration: none; /* Enlever la décoration par défaut */
+}
+
+.profile-container a:hover {
+  text-decoration: underline; /* Souligner le lien au survol */
+}
+
 /* App.css */
 
 .create-question-form {

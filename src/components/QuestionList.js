@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { collection, getDocs, updateDoc, doc, addDoc } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { db } from '../firebase/firebase';
 import { FaThumbsUp, FaReply, FaComment } from 'react-icons/fa';
 import { Paper, Typography, Button, TextField, IconButton } from '@mui/material';
@@ -26,13 +28,23 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   listItemText: {
-    fontSize: '1rem', // Diminuer la taille de la police du titre
+    fontSize: '1rem',
     fontWeight: 'bold',
     marginBottom: '5px',
   },
   listItemDetails: {
-    fontSize: '0.8rem', // Diminuer la taille de la police des détails
+    fontSize: '0.8rem',
     color: '#666',
+  },
+  responseContainer: {
+    marginTop: '10px',
+    paddingLeft: '20px',
+    borderLeft: '2px solid #ddd',
+  },
+  commentContainer: {
+    marginTop: '10px',
+    paddingLeft: '20px',
+    borderLeft: '2px solid #ddd',
   },
 }));
 
@@ -46,17 +58,20 @@ function QuestionList() {
   const [commentMode, setCommentMode] = useState({});
 
   useEffect(() => {
-    const fetchCurrentUser = () => {
-      // Mock implementation, replace with actual user fetch logic
-      const currentUserData = {
-        id: 'admin1',
-        displayName: 'Admin One',
-        role: 'admin', // Replace with actual user role logic
-      };
-      setCurrentUser(currentUserData);
-    };
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUser({
+          id: user.uid,
+          displayName: user.displayName,
+          role: 'user', // Vous pouvez ajouter une logique pour récupérer le rôle de l'utilisateur depuis la base de données
+        });
+      } else {
+        setCurrentUser(null);
+      }
+    });
 
-    fetchCurrentUser();
+    return () => unsubscribe();
   }, []);
 
   const fetchQuestions = async () => {
@@ -119,7 +134,7 @@ function QuestionList() {
 
       setReplyText((prevState) => ({ ...prevState, [questionId]: '' }));
       setReplyMode((prevState) => ({ ...prevState, [questionId]: false }));
-      fetchQuestions(); // Corrected call to fetchQuestions
+      fetchQuestions();
     } catch (error) {
       console.error('Error submitting reply:', error);
     }
@@ -134,7 +149,7 @@ function QuestionList() {
         : [...question.likedBy, currentUser.id];
 
       await updateDoc(questionRef, { likedBy });
-      fetchQuestions(); // Corrected call to fetchQuestions
+      fetchQuestions();
     } catch (error) {
       console.error('Error liking question:', error);
     }
@@ -157,7 +172,7 @@ function QuestionList() {
 
       setCommentText((prevState) => ({ ...prevState, [questionId]: '' }));
       setCommentMode((prevState) => ({ ...prevState, [questionId]: false }));
-      fetchQuestions(); // Corrected call to fetchQuestions
+      fetchQuestions();
     } catch (error) {
       console.error('Error submitting comment:', error);
     }
@@ -168,82 +183,95 @@ function QuestionList() {
       {questions.map((question) => (
         <Paper key={question.id} elevation={3} className="question-paper">
           <Typography variant="h5" gutterBottom className={classes.listItemText}>
-            {question.title}
+            <Link to={`/questions/${question.id}`}>{question.title}</Link>
           </Typography>
-          <Typography variant="body1" className={classes.listItemDetails}>
+          <Typography variant="body2" color="textSecondary" gutterBottom className={classes.listItemDetails}>
             Catégorie: {question.category}
           </Typography>
-          <Typography variant="h6" gutterBottom className={classes.listItemText}>
-            Réponses:
+          <Typography variant="body1" gutterBottom>
+            {question.content}
           </Typography>
-          <ul className="response-list">
-            {question.responses.map((response) => (
-              <li key={response.id}>
-                <Typography variant="body1" gutterBottom className={classes.listItemDetails}>
-                  {response.text}
-                </Typography>
-                <Typography variant="body2" className={classes.listItemDetails}>
-                  Auteur: {response.author}
-                </Typography>
-              </li>
-            ))}
-          </ul>
-          <Typography variant="h6" gutterBottom className={classes.listItemText}>
-            Commentaires:
+          <Typography variant="body2" color="textSecondary">
+            Auteur: {question.author}
           </Typography>
-          <ul className="comment-list">
-            {question.comments.map((comment) => (
-              <li key={comment.id}>
-                <Typography variant="body1" gutterBottom className={classes.listItemDetails}>
-                  {comment.text}
-                </Typography>
-                <Typography variant="body2" className={classes.listItemDetails}>
-                  Auteur: {comment.author}
-                </Typography>
-              </li>
-            ))}
-          </ul>
-          <div className="button-group">
-            <IconButton onClick={() => handleReply(question.id)}>
-              <FaReply /> Répondre
+          <div>
+            <IconButton
+              aria-label="like"
+              onClick={() => handleLikeQuestion(question.id)}
+              color={question.likedBy.includes(currentUser?.id) ? 'primary' : 'default'}
+            >
+              <FaThumbsUp />
             </IconButton>
-            <IconButton onClick={() => handleLikeQuestion(question.id)}>
-              <FaThumbsUp /> Aimer {question.likedBy.length > 0 && <span>({question.likedBy.length})</span>}
+            {question.likedBy.length}
+            <IconButton aria-label="reply" onClick={() => handleReply(question.id)}>
+              <FaReply />
             </IconButton>
-            <IconButton onClick={() => handleComment(question.id)}>
-              <FaComment /> Commenter
+            {question.responses.length}
+            <IconButton aria-label="comment" onClick={() => handleComment(question.id)}>
+              <FaComment />
             </IconButton>
+            {question.comments.length}
           </div>
           {replyMode[question.id] && (
-            <div className="reply-form">
+            <div>
               <TextField
-                label="Réponse"
+                label="Répondre"
                 multiline
-                rows={2}
+                rows={4}
                 value={replyText[question.id] || ''}
                 onChange={(e) => setReplyText((prevState) => ({ ...prevState, [question.id]: e.target.value }))}
+                variant="outlined"
                 fullWidth
+                margin="normal"
               />
-              <Button variant="contained" onClick={() => handleSubmitReply(question.id)}>
-                Envoyer
+              <Button variant="contained" color="primary" onClick={() => handleSubmitReply(question.id)}>
+                Soumettre
               </Button>
             </div>
           )}
+          {question.responses.map((response) => (
+            <div key={response.id} className={classes.responseContainer}>
+              <Typography variant="body2" color="textSecondary">
+                {response.author} a répondu :
+              </Typography>
+              <Typography variant="body1">{response.text}</Typography>
+              {response.timestamp && (
+                <Typography variant="body2" color="textSecondary">
+                  Posté le: {response.timestamp.toDate().toLocaleString()}
+                </Typography>
+              )}
+            </div>
+          ))}
           {commentMode[question.id] && (
-            <div className="comment-form">
+            <div>
               <TextField
-                label="Commentaire"
+                label="Commenter"
                 multiline
                 rows={2}
                 value={commentText[question.id] || ''}
                 onChange={(e) => setCommentText((prevState) => ({ ...prevState, [question.id]: e.target.value }))}
+                variant="outlined"
                 fullWidth
+                margin="normal"
               />
-              <Button variant="contained" onClick={() => handleSubmitComment(question.id)}>
-                Envoyer
+              <Button variant="contained" color="primary" onClick={() => handleSubmitComment(question.id)}>
+                Soumettre
               </Button>
             </div>
           )}
+          {question.comments.map((comment) => (
+            <div key={comment.id} className={classes.commentContainer}>
+              <Typography variant="body2" color="textSecondary">
+                {comment.author} a commenté :
+              </Typography>
+              <Typography variant="body1">{comment.text}</Typography>
+              {comment.timestamp && (
+                <Typography variant="body2" color="textSecondary">
+                  Posté le: {comment.timestamp.toDate().toLocaleString()}
+                </Typography>
+              )}
+            </div>
+          ))}
         </Paper>
       ))}
     </div>

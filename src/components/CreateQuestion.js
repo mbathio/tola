@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase.js';
+import { getAuth } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import '../App.css'; // Importation du fichier App.css pour les styles
 
 const CreateQuestion = () => {
@@ -8,6 +10,7 @@ const CreateQuestion = () => {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
   const [categories, setCategories] = useState([]);
+  const [user, loading, error] = useAuthState(getAuth());
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -31,6 +34,7 @@ const CreateQuestion = () => {
         content,
         category,
         createdAt: new Date(),
+        authorId: user ? user.uid : null // Ajouter l'ID de l'utilisateur comme auteur de la question
       };
       await addDoc(collection(db, 'questions'), newQuestion);
       setTitle('');
@@ -41,6 +45,14 @@ const CreateQuestion = () => {
       console.error('Erreur lors de la création de la question : ', error);
     }
   };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (!user) {
+    return <p>Vous devez être connecté pour créer une question. <a href="/login">Se connecter</a></p>;
+  }
 
   return (
     <form className="create-question-form" onSubmit={handleSubmit}>

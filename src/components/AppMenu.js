@@ -1,5 +1,3 @@
-// AppMenu.js
-
 import React from 'react';
 import { Link as RouterLink, Routes, Route } from 'react-router-dom';
 import {

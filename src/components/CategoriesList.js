@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
   categoryCard: {
     position: 'relative',
-    width: '22%',
+    width: '15%',
     height: '200px',
     margin: theme.spacing(1),
     borderRadius: '10px',
