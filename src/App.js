@@ -4,15 +4,15 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import 'firebase/compat/firestore';
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import ThemeSwitcher from './ThemeSwitcher';
 
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Home from './components/Home';
 import CreateQuestion from './components/CreateQuestion';
 import QuestionList from './components/QuestionList';
-import CategoryPage from './components/CategoryPage';
+import CategoryQuestionsPage from './components/CategoryQuestionsPage';
 import AppMenu from './components/AppMenu';
 import QuestionDetail from './components/QuestionDetail';
 import AdminPanel from './components/AdminPanel'; // Importation du composant AdminPanel
@@ -33,7 +33,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const firestore = getFirestore(app);
 
 const theme = createTheme({
   palette: {
@@ -78,7 +77,7 @@ const App = () => {
   useEffect(() => {
     const fetchUserRole = async () => {
       if (user) {
-        const userDoc = await getDoc(doc(firestore, 'users', user.uid));
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {
           setRole(userDoc.data().role);
         }
@@ -95,6 +94,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Router>
         <AppMenu />
         <Routes>
@@ -106,8 +106,8 @@ const App = () => {
           <Route path="/category/:slug" element={<CategoryPage />} />
           <Route path="/questions/:id" element={<QuestionDetail />} />
           {role === 'admin' && <Route path="/admin" element={<AdminPanel />} />}
-          <Route path="/" element={<CategoriesList />} />
-          <Route path="/categories/:Id" element={<CategoryQuestions />} />
+          <Route path="/categories" element={<CategoriesList />} />
+        <Route path="/categories/:categoryId" element={<CategoryQuestionsPage />} />
           {/* Redirigez les utilisateurs non connectés vers la page de connexion */}
           <Route path="*" element={<Navigate to={user ? "/home" : "/login"} />} />
         </Routes>

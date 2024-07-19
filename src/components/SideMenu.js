@@ -1,5 +1,3 @@
-// SideMenu.js
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';

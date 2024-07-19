@@ -4,6 +4,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import firebase from 'firebase/compat/app'; // Version v9 de Firebase
 import 'firebase/compat/firestore';
+import { getAnalytics } from "firebase/analytics";
 const firebaseConfig = {
   apiKey: "AIzaSyCCpdUVCCz3HRumnu_vlN5cEBTelHFYBiA",
   authDomain: "tola-14414.firebaseapp.com",
@@ -17,5 +18,5 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-
+const analytics = getAnalytics(app);
 export { db, auth };

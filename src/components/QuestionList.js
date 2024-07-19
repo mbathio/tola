@@ -5,45 +5,47 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { db } from '../firebase/firebase';
 import { FaThumbsUp, FaReply, FaComment } from 'react-icons/fa';
 import { Paper, Typography, Button, TextField, IconButton } from '@mui/material';
-import { makeStyles } from '@material-ui/core/styles';
 import '../App.css';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
+  
   root: {
     margin: '20px',
     padding: '10px',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: theme.palette.background.paper,
     borderRadius: '5px',
     boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
   },
   listItem: {
     padding: '15px',
     marginBottom: '10px',
-    backgroundColor: '#fff',
+    backgroundColor: theme.palette.background.default,
     border: '1px solid #ddd',
     borderRadius: '5px',
     transition: 'background-color 0.3s ease',
     '&:hover': {
-      backgroundColor: '#f0f0f0',
+      backgroundColor: theme.palette.action.hover,
     },
   },
   listItemText: {
     fontSize: '1rem',
     fontWeight: 'bold',
     marginBottom: '5px',
+    color: theme.palette.text.primary,
   },
   listItemDetails: {
     fontSize: '0.8rem',
-    color: '#666',
+    color: theme.palette.text.secondary,
   },
   responseContainer: {
-    marginTop: '10px',
-    paddingLeft: '20px',
+    marginTop: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
     borderLeft: '2px solid #ddd',
   },
   commentContainer: {
-    marginTop: '10px',
-    paddingLeft: '20px',
+    marginTop: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
     borderLeft: '2px solid #ddd',
   },
 }));
