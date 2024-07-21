@@ -15,10 +15,10 @@ import QuestionList from './components/QuestionList';
 import CategoryQuestionsPage from './components/CategoryQuestionsPage';
 import AppMenu from './components/AppMenu';
 import QuestionDetail from './components/QuestionDetail';
-import AdminPanel from './components/AdminPanel'; // Importation du composant AdminPanel
-import CategoriesList from './components/CategoriesList';
-import CategoryQuestions from './components/CategoryQuestions';
-import './App.css'; // Assurez-vous d'importer App.css
+import AdminPanel from './components/AdminPanel';
+import Categories from './components/Categories';
+import QuestionsByCategory from './components/QuestionsByCategory';
+import './App.css';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCCpdUVCCz3HRumnu_vlN5cEBTelHFYBiA",
@@ -37,35 +37,35 @@ const db = getFirestore(app);
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#00a0dc', // Couleur bleue primaire de Quora
+      main: '#00a0dc',
     },
     secondary: {
-      main: '#bdbdbd', // Couleur grise secondaire de Quora
+      main: '#bdbdbd',
     },
     background: {
-      default: '#f5f5f5', // Couleur de fond par défaut de Quora
+      default: '#f5f5f5',
     },
   },
   typography: {
-    fontFamily: 'Arial, sans-serif', // Police par défaut de Quora
+    fontFamily: 'Arial, sans-serif',
     h1: {
-      fontSize: '2.5rem', // Taille de police pour les titres de grande taille
+      fontSize: '2.5rem',
       fontWeight: 'bold',
-      color: '#333', // Couleur de texte principale
+      color: '#333',
     },
     h2: {
-      fontSize: '2rem', // Taille de police pour les sous-titres
+      fontSize: '2rem',
       fontWeight: 'bold',
       color: '#333',
     },
     h3: {
-      fontSize: '1.5rem', // Taille de police pour les titres de section
+      fontSize: '1.5rem',
       fontWeight: 'bold',
       color: '#333',
     },
     body1: {
-      fontSize: '1rem', // Taille de police du corps de texte
-      color: '#666', // Couleur de texte secondaire
+      fontSize: '1rem',
+      color: '#666',
     },
   },
 });
@@ -88,7 +88,6 @@ const App = () => {
   }, [user]);
 
   if (loading) {
-    // Afficher un indicateur de chargement si l'état d'authentification est en cours de chargement
     return <div>Loading...</div>;
   }
 
@@ -103,12 +102,10 @@ const App = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/create" element={user ? <CreateQuestion /> : <Navigate to="/login" />} />
           <Route path="/questions" element={<QuestionList />} />
-          <Route path="/category/:slug" element={<CategoryPage />} />
           <Route path="/questions/:id" element={<QuestionDetail />} />
+          <Route exact path="/categories" element={<Categories />} />
+        <Route path="/categories/:categoryId/questions" element={<QuestionsByCategory />} />
           {role === 'admin' && <Route path="/admin" element={<AdminPanel />} />}
-          <Route path="/categories" element={<CategoriesList />} />
-        <Route path="/categories/:categoryId" element={<CategoryQuestionsPage />} />
-          {/* Redirigez les utilisateurs non connectés vers la page de connexion */}
           <Route path="*" element={<Navigate to={user ? "/home" : "/login"} />} />
         </Routes>
       </Router>

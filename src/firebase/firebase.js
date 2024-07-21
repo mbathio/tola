@@ -1,9 +1,7 @@
 // src/firebase/firebase.js
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import firebase from 'firebase/compat/app'; // Version v9 de Firebase
-import 'firebase/compat/firestore';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 import { getAnalytics } from "firebase/analytics";
 const firebaseConfig = {
   apiKey: "AIzaSyCCpdUVCCz3HRumnu_vlN5cEBTelHFYBiA",
@@ -20,3 +18,11 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
 export { db, auth };
+// Fonction pour obtenir les questions par catégorie
+export const getQuestionsByCategory = async (categoryId) => {
+  const questionsRef = collection(db, 'questions');
+  const q = query(questionsRef, where('category', '==', categoryId));
+  const snapshot = await getDocs(q);
+  const questions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  return questions;
+}
