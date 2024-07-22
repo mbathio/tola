@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { auth, db } from '../firebase/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+
 import '../App.css';
 
 const Signup = () => {
@@ -11,6 +13,7 @@ const Signup = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // Utiliser useNavigate pour React Router v6
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -44,8 +47,10 @@ const Signup = () => {
         createdAt: new Date()
       });
       alert('Inscription réussie!');
+      navigate('/categories'); // Utiliser navigate pour la redirection
     } catch (error) {
       setError(error.message);
+      console.error("Erreur lors de l'inscription : ", error);
     }
   };
 

@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { useParams } from 'react-router-dom';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
-import { Paper, Typography } from '@mui/material';
-import '../App.css';
+import { Typography } from '@mui/material';
 
 const CategoryQuestionsPage = () => {
-  const { categoryId } = useParams(); // Utilise useParams pour récupérer l'ID de la catégorie depuis l'URL
+  const { categoryId } = useParams(); // Récupération du paramètre de la catégorie depuis l'URL
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const questionsRef = collection(db, 'questions');
-        const q = query(questionsRef, where('category', '==', categoryId));
+        // Requête pour récupérer les questions dont la catégorie correspond à l'identifiant
+        const q = query(collection(db, 'questions'), where('category', '==', categoryId));
         const querySnapshot = await getDocs(q);
-        const questionsData = querySnapshot.docs.map(doc => ({
+        const questionsData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-
         setQuestions(questionsData);
       } catch (error) {
-        console.error('Error fetching questions: ', error);
+        console.error('Erreur lors de la récupération des questions : ', error);
       }
     };
 
@@ -30,28 +28,16 @@ const CategoryQuestionsPage = () => {
   }, [categoryId]);
 
   return (
-    <div className="category-questions-page">
-      <Typography variant="h4" gutterBottom>
-        Questions dans la catégorie: {categoryId}
-      </Typography>
+    <div className="category-questions-container">
       {questions.length > 0 ? (
-        questions.map(question => (
-          <Paper key={question.id} elevation={3} className="question-paper">
-            <Typography variant="h5" gutterBottom>
-              <Link to={`/questions/${question.id}`}>{question.title}</Link>
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              {question.content}
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              Auteur: {question.author}
-            </Typography>
-          </Paper>
+        questions.map((question) => (
+          <div key={question.id}>
+            <Typography variant="h6">{question.title}</Typography>
+            <p>{question.content}</p>
+          </div>
         ))
       ) : (
-        <Typography variant="body1">
-          Aucune question trouvée dans cette catégorie.
-        </Typography>
+        <Typography variant="h6">Aucune question trouvée pour cette catégorie.</Typography>
       )}
     </div>
   );

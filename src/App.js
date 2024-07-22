@@ -5,14 +5,13 @@ import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
-import ThemeSwitcher from './ThemeSwitcher';
 
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Home from './components/Home';
 import CreateQuestion from './components/CreateQuestion';
 import QuestionList from './components/QuestionList';
-import CategorySelection from './components/CategorySelection'; // Nouveau composant
+import CategorySelection from './components/CategorySelection'; // Assurez-vous que ce composant existe
 import QuestionDetail from './components/QuestionDetail';
 import AdminPanel from './components/AdminPanel';
 import './App.css';
@@ -95,13 +94,14 @@ const App = () => {
         <Routes>
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/home" element={user ? <Home /> : <Navigate to="/login" />} />
           <Route path="/create" element={user ? <CreateQuestion /> : <Navigate to="/login" />} />
-          <Route path="/questions" element={user ? <QuestionList /> : <Navigate to="/login" />} />
-          <Route path="/questions/:id" element={user ? <QuestionDetail /> : <Navigate to="/login" />} />
-          <Route path="/category-selection" element={user ? <CategorySelection /> : <Navigate to="/login" />} />
-          <Route path="/" element={user ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+          <Route path="/questions" element={user ? <QuestionList user={user} /> : <Navigate to="/signup" />} />
+          <Route path="/categories" element={user ? <CategorySelection user={user} /> : <Navigate to="/signup" />} />
+          <Route path="/categories" element={<QuestionList />} />
+          <Route path="/category/:categoryName" element={<CategoryPage />} />
           {role === 'admin' && <Route path="/admin" element={<AdminPanel />} />}
+          <Route path="/" element={user ? <Navigate to="/home" /> : <Navigate to="/login" />} />
           <Route path="*" element={<Navigate to={user ? "/home" : "/login"} />} />
         </Routes>
       </Router>
