@@ -1,13 +1,9 @@
-// src/components/QuestionList.js
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { collection, getDocs, updateDoc, doc, addDoc } from 'firebase/firestore';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
-import { FaThumbsUp, FaThumbsDown, FaReply } from 'react-icons/fa';
-import { Paper, Typography, Button, TextField, IconButton } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import '../App.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,158 +20,69 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid #ddd',
     borderRadius: '5px',
   },
-  listItemText: {
-    fontSize: '1rem',
-    fontWeight: 'bold',
-    marginBottom: '5px',
-    color: theme.palette.text.primary,
-  },
-  listItemDetails: {
-    fontSize: '0.8rem',
-    color: theme.palette.text.secondary,
-  },
-  responseContainer: {
-    marginTop: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
-    borderLeft: '2px solid #ddd',
-  },
 }));
 
 const QuestionList = () => {
   const classes = useStyles();
   const [questions, setQuestions] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [replyText, setReplyText] = useState({});
-  const [replyMode, setReplyMode] = useState({});
 
   useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setCurrentUser({
-          id: user.uid,
-          displayName: user.displayName,
-          role: 'user', // Vous pouvez ajouter une logique pour récupérer le rôle de l'utilisateur depuis la base de données
-        });
-      } else {
-        setCurrentUser(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const fetchQuestions = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, 'questions'));
-      const questionsData = await Promise.all(
-        querySnapshot.docs.map(async (doc) => {
-          const question = {
-            id: doc.id,
-            ...doc.data(),
-            responses: [],
-            likedBy: doc.data().likedBy || [],
-            dislikedBy: doc.data().dislikedBy || [],
-          };
-
-          const responsesSnapshot = await getDocs(collection(doc.ref, 'responses'));
-          responsesSnapshot.forEach((responseDoc) => {
-            question.responses.push({
-              id: responseDoc.id,
-              ...responseDoc.data(),
+    const fetchQuestions = async () => {
+      try {
+        // Récupérez les catégories de l'utilisateur connecté
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (user) {
+          const userRef = doc(db, 'users', user.uid);
+          const userDoc = await getDocs(userRef);
+          const selectedCategories = userDoc.data().selectedCategories || [];
+          
+          // Recherchez les questions correspondant aux catégories sélectionnées
+          const queries = selectedCategories.map(category => query(
+            collection(db, 'questions'),
+            where('category', '==', category)
+          ));
+          const questionsData = [];
+          for (const q of queries) {
+            const querySnapshot = await getDocs(q);
+            querySnapshot.docs.forEach(doc => {
+              questionsData.push({ id: doc.id, ...doc.data() });
             });
-          });
+          }
+          setQuestions(questionsData);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des questions :', error);
+      }
+    };
 
-          return question;
-        })
-      );
-
-      setQuestions(questionsData);
-    } catch (error) {
-      console.error('Erreur lors de la récupération des questions : ', error);
-    }
-  };
-
-  useEffect(() => {
     fetchQuestions();
   }, []);
 
-  const handleReply = (questionId) => {
-    setReplyMode((prevState) => ({ ...prevState, [questionId]: !prevState[questionId] }));
-  };
-
-  const handleSubmitReply = async (questionId) => {
-    if (!replyText[questionId]) return;
-
-    try {
-      const questionRef = doc(db, 'questions', questionId);
-      await addDoc(collection(questionRef, 'responses'), {
-        text: replyText[questionId],
-        author: currentUser.displayName,
-        timestamp: new Date(),
-      });
-
-      setReplyText((prevState) => ({ ...prevState, [questionId]: '' }));
-      setReplyMode((prevState) => ({ ...prevState, [questionId]: false }));
-      fetchQuestions();
-    } catch (error) {
-      console.error('Erreur lors de la soumission de la réponse :', error);
-    }
-  };
-
-  const handleLikeQuestion = async (questionId) => {
-    if (!currentUser) return;
-
-    try {
-      const questionRef = doc(db, 'questions', questionId);
-      const question = questions.find((q) => q.id === questionId);
-      const likedBy = question.likedBy.includes(currentUser.id)
-        ? question.likedBy.filter((userId) => userId !== currentUser.id)
-        : [...question.likedBy, currentUser.id];
-
-      await updateDoc(questionRef, { likedBy });
-      setQuestions((prevQuestions) =>
-        prevQuestions.map((q) =>
-          q.id === questionId ? { ...q, likedBy } : q
-        )
-      );
-    } catch (error) {
-      console.error('Erreur lors du like de la question :', error);
-    }
-  };
-
-  const handleDislikeQuestion = async (questionId) => {
-    if (!currentUser) return;
-
-    try {
-      const questionRef = doc(db, 'questions', questionId);
-      const question = questions.find((q) => q.id === questionId);
-      const dislikedBy = question.dislikedBy.includes(currentUser.id)
-        ? question.dislikedBy.filter((userId) => userId !== currentUser.id)
-        : [...question.dislikedBy, currentUser.id];
-
-      await updateDoc(questionRef, { dislikedBy });
-      setQuestions((prevQuestions) =>
-        prevQuestions.map((q) =>
-          q.id === questionId ? { ...q, dislikedBy } : q
-        )
-      );
-    } catch (error) {
-      console.error('Erreur lors du dislike de la question :', error);
-    }
-  };
-
-  const categories = [...new Set(questions.map((q) => q.category))];
-
   return (
-    <div className="question-list-container">
-      {categories.map((category) => (
-        <div key={category}>
-          <Typography variant="h4" gutterBottom>
-            <Link to={`/category/${category}`}>{category}</Link>
-          </Typography>
-        </div>
-      ))}
+    <div className={classes.root}>
+      <Typography variant="h4" gutterBottom>
+        Liste des Questions
+      </Typography>
+      {questions.length > 0 ? (
+        questions.map(question => (
+          <Paper key={question.id} elevation={3} className={classes.listItem}>
+            <Typography variant="h5" gutterBottom>
+              {question.title}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              {question.content}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              Catégorie: {question.category}
+            </Typography>
+          </Paper>
+        ))
+      ) : (
+        <Typography variant="h6" color="textSecondary">
+          Aucune question trouvée pour vos catégories sélectionnées.
+        </Typography>
+      )}
     </div>
   );
 };

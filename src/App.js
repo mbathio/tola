@@ -12,11 +12,9 @@ import Login from './components/Login';
 import Home from './components/Home';
 import CreateQuestion from './components/CreateQuestion';
 import QuestionList from './components/QuestionList';
-import CategoryQuestionsPage from './components/CategoryQuestionsPage'; // Assure-toi d'utiliser ce composant si nécessaire
+import CategorySelection from './components/CategorySelection'; // Nouveau composant
 import QuestionDetail from './components/QuestionDetail';
 import AdminPanel from './components/AdminPanel';
-import Categories from './components/Categories';
-import QuestionsByCategory from './components/QuestionsByCategory';
 import './App.css';
 
 const firebaseConfig = {
@@ -94,16 +92,15 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <AppMenu />
         <Routes>
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/create" element={user ? <CreateQuestion /> : <Navigate to="/login" />} />
-          <Route path="/questions" element={<QuestionList />} />
-          <Route path="/questions/:id" element={<QuestionDetail />} />
-          <Route path="/" element={<QuestionList />} />
-        <Route path="/category/:categoryId" element={<CategoryPage />} />
+          <Route path="/questions" element={user ? <QuestionList /> : <Navigate to="/login" />} />
+          <Route path="/questions/:id" element={user ? <QuestionDetail /> : <Navigate to="/login" />} />
+          <Route path="/category-selection" element={user ? <CategorySelection /> : <Navigate to="/login" />} />
+          <Route path="/" element={user ? <Navigate to="/home" /> : <Navigate to="/login" />} />
           {role === 'admin' && <Route path="/admin" element={<AdminPanel />} />}
           <Route path="*" element={<Navigate to={user ? "/home" : "/login"} />} />
         </Routes>
