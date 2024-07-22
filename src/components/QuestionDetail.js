@@ -73,7 +73,9 @@ const QuestionDetail = () => {
               <Typography variant="body1">
                 {comment.text}
               </Typography>
-              
+              <Typography variant="body2" color="textSecondary">
+                Auteur: {comment.author}
+              </Typography>
             </li>
           ))}
         </ul>

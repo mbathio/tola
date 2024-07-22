@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { auth, db } from '../firebase/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import '../App.css'; // Importez votre fichier CSS global
+import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
+import '../App.css';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
-  const [role, setRole] = useState('user');
+  const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'categories'));
+        const categoriesList = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setCategories(categoriesList);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -21,7 +39,8 @@ const Signup = () => {
         uid: user.uid,
         email: user.email,
         displayName,
-        role,
+        role: 'user',
+        categories: selectedCategories,
         createdAt: new Date()
       });
       alert('Inscription réussie!');
@@ -61,15 +80,24 @@ const Signup = () => {
             required
           />
         </div>
-        {role === 'admin' && (
-          <div>
-            <label>Rôle:</label>
-            <select value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
-        )}
+        <div>
+          <label>Catégories:</label>
+          {categories.map(category => (
+            <div key={category.id}>
+              <input
+                type="checkbox"
+                value={category.id}
+                onChange={(e) => {
+                  const { value, checked } = e.target;
+                  setSelectedCategories(prevState =>
+                    checked ? [...prevState, value] : prevState.filter(id => id !== value)
+                  );
+                }}
+              />
+              {category.name}
+            </div>
+          ))}
+        </div>
         {error && <p className="error-message">{error}</p>}
         <button type="submit">S'inscrire</button>
       </form>

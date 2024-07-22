@@ -36,7 +36,8 @@ const Login = () => {
           setError('Accès refusé. Vérifiez votre type de connexion.');
         }
       } else {
-        alert('Connexion réussie!');      }
+        setError('Utilisateur non trouvé.');
+      }
     } catch (error) {
       setError(`Erreur de connexion: ${error.message}`);
     }

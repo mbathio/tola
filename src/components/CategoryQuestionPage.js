@@ -1,49 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
+import { Paper, Typography } from '@mui/material';
+import '../App.css';
 
 const CategoryQuestionsPage = () => {
-  const { categoryId } = useParams();
+  const { categoryId } = useParams(); // Utilise useParams pour récupérer l'ID de la catégorie depuis l'URL
   const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const q = query(collection(db, 'questions'), where('category', '==', categoryId));
+        const questionsRef = collection(db, 'questions');
+        const q = query(questionsRef, where('category', '==', categoryId));
         const querySnapshot = await getDocs(q);
-        const fetchedQuestions = querySnapshot.docs.map(doc => ({
+        const questionsData = querySnapshot.docs.map(doc => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
-        setQuestions(fetchedQuestions);
+
+        setQuestions(questionsData);
       } catch (error) {
-        console.error('Error fetching questions:', error);
-        setError('Une erreur est survenue lors du chargement des questions.');
-      } finally {
-        setLoading(false);
+        console.error('Error fetching questions: ', error);
       }
     };
 
     fetchQuestions();
   }, [categoryId]);
 
-  if (loading) return <p>Chargement...</p>;
-  if (error) return <p>{error}</p>;
-
   return (
-    <div>
-      <h1>Questions pour la catégorie</h1>
+    <div className="category-questions-page">
+      <Typography variant="h4" gutterBottom>
+        Questions dans la catégorie: {categoryId}
+      </Typography>
       {questions.length > 0 ? (
-        <ul>
-          {questions.map(question => (
-            <li key={question.id}>{question.title}</li>
-          ))}
-        </ul>
+        questions.map(question => (
+          <Paper key={question.id} elevation={3} className="question-paper">
+            <Typography variant="h5" gutterBottom>
+              <Link to={`/questions/${question.id}`}>{question.title}</Link>
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {question.content}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              Auteur: {question.author}
+            </Typography>
+          </Paper>
+        ))
       ) : (
-        <p>Aucune question trouvée pour cette catégorie.</p>
+        <Typography variant="body1">
+          Aucune question trouvée dans cette catégorie.
+        </Typography>
       )}
     </div>
   );
