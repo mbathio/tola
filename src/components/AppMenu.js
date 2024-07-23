@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: '#3f51b5',
   },
   drawer: {
     width: drawerWidth,
@@ -61,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   menuButton: {
+    marginLeft: theme.spacing(2),
     backgroundColor: theme.palette.primary.main,
     color: '#fff',
     border: '1px solid #fff',
@@ -72,8 +74,33 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     ...theme.mixins.toolbar,
     '& .MuiTypography-root': {
-      fontSize: '0.875rem',
+      fontSize: '1rem',
     },
+  },
+  searchForm: {
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: theme.spacing(2),
+  },
+  searchInput: {
+    marginRight: theme.spacing(1),
+    padding: theme.spacing(0.5),
+    borderRadius: theme.shape.borderRadius,
+    border: '1px solid #ccc',
+  },
+  searchButton: {
+    padding: theme.spacing(0.5, 2),
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.primary.main,
+    color: '#fff',
+    border: 'none',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  },
+  spacer: {
+    flexGrow: 1,
   },
 }));
 
@@ -90,7 +117,7 @@ const AppMenu = () => {
   };
 
   return (
-    <div className="app-container">
+    <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start">
@@ -99,10 +126,10 @@ const AppMenu = () => {
           <Typography variant="h6" noWrap>
             Tola
           </Typography>
-          <div style={{ flexGrow: 1 }} />
-          <form>
-            <input type="text" placeholder="Rechercher une question..." />
-            <button type="submit">Rechercher</button>
+          <div className={classes.spacer} />
+          <form className={classes.searchForm}>
+            <input type="text" placeholder="Rechercher une question..." className={classes.searchInput} />
+            <button type="submit" className={classes.searchButton}>Rechercher</button>
           </form>
           <Button component={RouterLink} to="/create-question" className={classes.menuButton}>
             Ajouter une question
@@ -187,7 +214,7 @@ const AppMenu = () => {
           </List>
         </div>
       </Drawer>
-      <main className="main-content">
+      <main className={classes.content}>
         <Toolbar />
         <Routes>
           <Route path="/" element={<Home />} />

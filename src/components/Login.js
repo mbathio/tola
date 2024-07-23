@@ -17,21 +17,26 @@ const Login = () => {
     e.preventDefault();
     setError('');
     try {
+      console.log('Tentative de connexion avec : ', email, password);
+
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Récupérer les informations de l'utilisateur depuis Firestore en utilisant l'UID
+      console.log('Utilisateur authentifié avec UID : ', user.uid);
+
       const userDocRef = doc(db, 'users', user.uid);
       const userDoc = await getDoc(userDocRef);
 
       if (userDoc.exists()) {
         const userData = userDoc.data();
+        console.log('Données utilisateur récupérées : ', userData);
+
         if (isAdminLogin && userData.role === 'admin') {
-          alert('Bienvenue Admin!');
-          navigate('/admin'); // Rediriger l'administrateur vers une page dédiée
+          console.log('Connexion réussie en tant qu\'admin');
+          navigate('/adminpanel');
         } else if (!isAdminLogin && userData.role === 'user') {
-          alert('Connexion réussie!');
-          navigate('/profile'); // Rediriger l'utilisateur vers son profil
+          console.log('Connexion réussie en tant qu\'utilisateur');
+          navigate('/profile');
         } else {
           setError('Accès refusé. Vérifiez votre type de connexion.');
         }
@@ -39,7 +44,17 @@ const Login = () => {
         setError('Utilisateur non trouvé.');
       }
     } catch (error) {
-      setError(`Erreur de connexion: ${error.message}`);
+      console.error('Erreur de connexion :', error);
+
+      if (error.code === 'auth/invalid-email') {
+        setError('Adresse e-mail invalide.');
+      } else if (error.code === 'auth/user-not-found') {
+        setError('Utilisateur non trouvé.');
+      } else if (error.code === 'auth/wrong-password') {
+        setError('Mot de passe incorrect.');
+      } else {
+        setError(`Erreur de connexion : ${error.message}`);
+      }
     }
   };
 
@@ -47,25 +62,27 @@ const Login = () => {
     <div className="login-container">
       <h2>Connexion</h2>
       {!showForm ? (
-        <div>
+        <div className="role-selection">
           <button onClick={() => { setIsAdminLogin(true); setShowForm(true); }}>Connexion Admin</button>
           <button onClick={() => { setIsAdminLogin(false); setShowForm(true); }}>Connexion Utilisateur</button>
         </div>
       ) : (
         <form onSubmit={handleLogin}>
-          <div>
-            <label>Email:</label>
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
             <input
               type="email"
+              id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          <div>
-            <label>Mot de passe:</label>
+          <div className="form-group">
+            <label htmlFor="password">Mot de passe:</label>
             <input
               type="password"
+              id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required

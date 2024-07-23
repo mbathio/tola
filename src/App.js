@@ -14,6 +14,7 @@ import QuestionList from './components/QuestionList';
 import CategorySelection from './components/CategorySelection'; // Assurez-vous que ce composant existe
 import QuestionDetail from './components/QuestionDetail';
 import AdminPanel from './components/AdminPanel';
+import CategoryPage from './components/CategoryPage'; // Assurez-vous que ce composant existe
 import './App.css';
 
 const firebaseConfig = {
@@ -96,11 +97,10 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={user ? <Home /> : <Navigate to="/login" />} />
           <Route path="/create" element={user ? <CreateQuestion /> : <Navigate to="/login" />} />
-          <Route path="/questions" element={user ? <QuestionList user={user} /> : <Navigate to="/signup" />} />
-          <Route path="/categories" element={user ? <CategorySelection user={user} /> : <Navigate to="/signup" />} />
-          <Route path="/categories" element={<QuestionList />} />
-          <Route path="/category/:categoryName" element={<CategoryPage />} />
-          {role === 'admin' && <Route path="/admin" element={<AdminPanel />} />}
+          <Route path="/questions" element={user ? <QuestionList user={user} /> : <Navigate to="/login" />} />
+          <Route path="/categories" element={user ? <CategorySelection user={user} /> : <Navigate to="/login" />} />
+          <Route path="/category/:categoryName" element={user ? <CategoryPage /> : <Navigate to="/login" />} />
+          {role === 'admin' && <Route path="/adminpanel" element={<AdminPanel />} />}
           <Route path="/" element={user ? <Navigate to="/home" /> : <Navigate to="/login" />} />
           <Route path="*" element={<Navigate to={user ? "/home" : "/login"} />} />
         </Routes>

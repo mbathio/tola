@@ -1,13 +1,18 @@
-// src/components/AdminPanel.js
 import React, { useEffect, useState } from 'react';
 import { db, auth } from '../firebase/firebase';
-import { collection, getDocs, doc, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc, updateDoc, getDoc, setDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [newUserEmail, setNewUserEmail] = useState('');
+  const [newUsername, setNewUsername] = useState('');
+  const [newUserPassword, setNewUserPassword] = useState('');
+  const [newUserRole, setNewUserRole] = useState('user');
+  const [newCategoryName, setNewCategoryName] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -93,15 +98,99 @@ const AdminPanel = () => {
     }
   };
 
+  const handleAddUser = async () => {
+    try {
+      const originalUser = auth.currentUser;
+
+      const userCredential = await createUserWithEmailAndPassword(auth, newUserEmail, newUserPassword);
+      const user = userCredential.user;
+
+      if (originalUser) {
+        await auth.updateCurrentUser(originalUser);
+      }
+
+      await setDoc(doc(db, 'users', user.uid), {
+        email: newUserEmail,
+        displayName: newUsername,
+        role: newUserRole,
+        createdAt: new Date(),
+      });
+
+      setUsers([...users, { id: user.uid, email: newUserEmail, displayName: newUsername, role: newUserRole }]);
+      setNewUserEmail('');
+      setNewUsername('');
+      setNewUserPassword('');
+      setNewUserRole('user');
+    } catch (error) {
+      console.error('Error adding user: ', error);
+    }
+  };
+
+  const handleAddCategory = async () => {
+    try {
+      // Créer une nouvelle catégorie
+      const newCategory = {
+        name: newCategoryName,
+        createdAt: new Date(),
+      };
+
+      const categoryRef = doc(collection(db, 'categories'));
+      await setDoc(categoryRef, newCategory);
+
+      // Ajouter la catégorie à l'état local
+      setCategories([...categories, { id: categoryRef.id, ...newCategory }]);
+      setNewCategoryName('');
+    } catch (error) {
+      console.error('Error adding category: ', error);
+    }
+  };
+
   return (
     <div>
       <h1>Admin Panel</h1>
+
+      <h2>Ajouter un Utilisateur</h2>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        handleAddUser();
+      }}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={newUserEmail}
+          onChange={(e) => setNewUserEmail(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Nom d'utilisateur"
+          value={newUsername}
+          onChange={(e) => setNewUsername(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Mot de passe"
+          value={newUserPassword}
+          onChange={(e) => setNewUserPassword(e.target.value)}
+          required
+        />
+        <select
+          value={newUserRole}
+          onChange={(e) => setNewUserRole(e.target.value)}
+        >
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button type="submit">Ajouter</button>
+      </form>
 
       <h2>Utilisateurs</h2>
       <table>
         <thead>
           <tr>
             <th>Email</th>
+            <th>Nom d'utilisateur</th>
             <th>Rôle</th>
             <th>Actions</th>
           </tr>
@@ -110,6 +199,7 @@ const AdminPanel = () => {
           {users.map(user => (
             <tr key={user.id}>
               <td>{user.email}</td>
+              <td>{user.displayName}</td>
               <td>
                 <select
                   value={user.role}
@@ -148,6 +238,19 @@ const AdminPanel = () => {
       </table>
 
       <h2>Catégories</h2>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        handleAddCategory();
+      }}>
+        <input
+          type="text"
+          placeholder="Nom de la catégorie"
+          value={newCategoryName}
+          onChange={(e) => setNewCategoryName(e.target.value)}
+          required
+        />
+        <button type="submit">Ajouter une Catégorie</button>
+      </form>
       <table>
         <thead>
           <tr>
