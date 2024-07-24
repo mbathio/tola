@@ -55,39 +55,45 @@ const CreateQuestion = () => {
   }
 
   return (
-    <form className="create-question-form" onSubmit={handleSubmit}>
-      <div>
-        <label>Titre :</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Contenu :</label>
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-        ></textarea>
-      </div>
-      <div>
-        <label>Catégorie :</label>
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          required
-        >
-          <option value="">Sélectionnez une catégorie</option>
-          {categories.map((cat) => (
-            <option key={cat.id} value={cat.id}>{cat.name}</option>
-          ))}
-        </select>
-      </div>
-      <button type="submit">Créer la Question</button>
-    </form>
+    <div className="create-question-container">
+      <h2>Créer une Question</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="title">Titre :</label>
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="content">Contenu :</label>
+          <textarea
+            id="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+          ></textarea>
+        </div>
+        <div>
+          <label htmlFor="category">Catégorie :</label>
+          <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+          >
+            <option value="">Sélectionnez une catégorie</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            ))}
+          </select>
+        </div>
+        <button type="submit">Créer la Question</button>
+      </form>
+    </div>
   );
 };
 

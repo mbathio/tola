@@ -3,6 +3,7 @@ import { db, auth } from '../firebase/firebase';
 import { collection, getDocs, doc, deleteDoc, updateDoc, getDoc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import '../App.css'; // Importation du CSS spécifique
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
@@ -13,6 +14,8 @@ const AdminPanel = () => {
   const [newUserPassword, setNewUserPassword] = useState('');
   const [newUserRole, setNewUserRole] = useState('user');
   const [newCategoryName, setNewCategoryName] = useState('');
+  const [editCategoryId, setEditCategoryId] = useState(null);
+  const [editCategoryName, setEditCategoryName] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -89,10 +92,18 @@ const AdminPanel = () => {
   };
 
   const handleUpdateCategory = async (id, name) => {
+    console.log('ID de la catégorie à mettre à jour:', id);
+    console.log('Nouveau nom de la catégorie:', name);
+
     try {
       const categoryDoc = doc(db, 'categories', id);
       await updateDoc(categoryDoc, { name });
-      setCategories(categories.map(category => (category.id === id ? { ...category, name } : category)));
+
+      setCategories(categories.map(category =>
+        category.id === id ? { ...category, name } : category
+      ));
+      setEditCategoryId(null);
+      setEditCategoryName('');
     } catch (error) {
       console.error('Error updating category: ', error);
     }
@@ -100,14 +111,8 @@ const AdminPanel = () => {
 
   const handleAddUser = async () => {
     try {
-      const originalUser = auth.currentUser;
-
       const userCredential = await createUserWithEmailAndPassword(auth, newUserEmail, newUserPassword);
       const user = userCredential.user;
-
-      if (originalUser) {
-        await auth.updateCurrentUser(originalUser);
-      }
 
       await setDoc(doc(db, 'users', user.uid), {
         email: newUserEmail,
@@ -128,7 +133,6 @@ const AdminPanel = () => {
 
   const handleAddCategory = async () => {
     try {
-      // Créer une nouvelle catégorie
       const newCategory = {
         name: newCategoryName,
         createdAt: new Date(),
@@ -137,7 +141,6 @@ const AdminPanel = () => {
       const categoryRef = doc(collection(db, 'categories'));
       await setDoc(categoryRef, newCategory);
 
-      // Ajouter la catégorie à l'état local
       setCategories([...categories, { id: categoryRef.id, ...newCategory }]);
       setNewCategoryName('');
     } catch (error) {
@@ -146,7 +149,7 @@ const AdminPanel = () => {
   };
 
   return (
-    <div>
+    <div className="admin-panel-container">
       <h1>Admin Panel</h1>
 
       <h2>Ajouter un Utilisateur</h2>
@@ -179,8 +182,8 @@ const AdminPanel = () => {
           value={newUserRole}
           onChange={(e) => setNewUserRole(e.target.value)}
         >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
+          <option value="user">Utilisateur</option>
+          <option value="admin">Administrateur</option>
         </select>
         <button type="submit">Ajouter</button>
       </form>
@@ -196,7 +199,7 @@ const AdminPanel = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
+          {users.map((user) => (
             <tr key={user.id}>
               <td>{user.email}</td>
               <td>{user.displayName}</td>
@@ -205,8 +208,8 @@ const AdminPanel = () => {
                   value={user.role}
                   onChange={(e) => handleRoleChange(user.id, e.target.value)}
                 >
-                  <option value="user">User</option>
-                  <option value="admin">Admin</option>
+                  <option value="user">Utilisateur</option>
+                  <option value="admin">Administrateur</option>
                 </select>
               </td>
               <td>
@@ -222,13 +225,15 @@ const AdminPanel = () => {
         <thead>
           <tr>
             <th>Titre</th>
+            <th>Contenu</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {questions.map(question => (
+          {questions.map((question) => (
             <tr key={question.id}>
               <td>{question.title}</td>
+              <td>{question.content}</td>
               <td>
                 <button onClick={() => handleDeleteQuestion(question.id)}>Supprimer</button>
               </td>
@@ -249,8 +254,26 @@ const AdminPanel = () => {
           onChange={(e) => setNewCategoryName(e.target.value)}
           required
         />
-        <button type="submit">Ajouter une Catégorie</button>
+        <button type="submit">Ajouter</button>
       </form>
+
+      {editCategoryId && (
+        <div className="edit-category-form">
+          <h3>Modifier la catégorie</h3>
+          <input
+            type="text"
+            placeholder="Nom de la catégorie"
+            value={editCategoryName}
+            onChange={(e) => setEditCategoryName(e.target.value)}
+            required
+          />
+          <button onClick={() => handleUpdateCategory(editCategoryId, editCategoryName)}>
+            Mettre à jour
+          </button>
+          <button onClick={() => setEditCategoryId(null)}>Annuler</button>
+        </div>
+      )}
+
       <table>
         <thead>
           <tr>
@@ -259,16 +282,14 @@ const AdminPanel = () => {
           </tr>
         </thead>
         <tbody>
-          {categories.map(category => (
+          {categories.map((category) => (
             <tr key={category.id}>
+              <td>{category.name}</td>
               <td>
-                <input
-                  type="text"
-                  value={category.name}
-                  onChange={(e) => handleUpdateCategory(category.id, e.target.value)}
-                />
-              </td>
-              <td>
+                <button onClick={() => {
+                  setEditCategoryId(category.id);
+                  setEditCategoryName(category.name);
+                }}>Modifier</button>
                 <button onClick={() => handleDeleteCategory(category.id)}>Supprimer</button>
               </td>
             </tr>

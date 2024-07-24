@@ -1,17 +1,107 @@
-/* Styles pour le container principal et le contenu */
+/* Conteneur principal pour la page d'accueil */
 .home-container {
   display: flex;
+  flex-direction: row;
+  margin: 0 auto;
   padding: 20px;
+  max-width: 1200px;
+  background-color: #f5f5f5;
 }
 
+/* Contenu principal */
 .main-content {
   flex: 1;
-  background-color: #f9f9f9;
-  padding: 20px;
-  margin-left: 20px; /* Marge de base à gauche */
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
 }
+
+/* Titre principal */
+.main-content h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Sections et titres des questions */
+.main-content h2 {
+  font-size: 1.75rem;
+  color: #555;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
+
+/* Liste des questions */
+.question-list {
+  list-style: none;
+  padding: 0;
+}
+
+.question-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.question-card:hover {
+  background-color: #f0f8ff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.question-link {
+  text-decoration: none;
+  color: #333;
+}
+
+.question-link h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #007bff;
+}
+
+.question-link p {
+  margin-top: 5px;
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Chargement et message de fin */
+.main-content p {
+  text-align: center;
+  color: #777;
+  font-size: 1rem;
+}
+
+/* Pied de page pour le chargement infini */
+.infinite-scroll-footer {
+  height: 1px; /* Permet de déclencher l'observation */
+}
+
+/* Styles pour les messages importants */
+.main-content > div:last-of-type {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  border-radius: 5px;
+  color: #856404;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Menu latéral */
+.side-menu {
+  flex: 0 0 250px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* App.css */
 
 body {
@@ -335,34 +425,64 @@ form button:hover {
 }
 
 /* Login Container */
+/* Style pour le conteneur de connexion */
 .login-container {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 200%;
+  max-width: 600px;
+  margin: 2rem auto;
   text-align: center;
+  border: 1px solid #e0e0e0;
 }
 
+/* Titre de la connexion */
 .login-container h2 {
   margin-bottom: 20px;
   color: #333;
+  font-size: 1.5rem;
 }
 
+/* Style pour la sélection de rôle */
+.role-selection {
+  margin-bottom: 20px;
+}
+
+.role-selection button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.role-selection button:hover {
+  background-color: #0056b3;
+}
+
+/* Style du formulaire */
 .login-container form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
 }
 
+/* Style pour les labels */
 .login-container label {
-  align-self: flex-start;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   color: #555;
+  font-weight: bold;
+  text-align: left;
 }
 
-.login-container input {
+/* Style pour les champs de saisie */
+.login-container input[type="email"],
+.login-container input[type="password"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -371,7 +491,327 @@ form button:hover {
   box-sizing: border-box;
 }
 
-.login-container button {
+.login-container input[type="email"]:focus,
+.login-container input[type="password"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Style pour le bouton de connexion */
+.login-container button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1rem;
+}
+
+.login-container button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Style pour le message d'erreur */
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+  font-size: 0.875rem;
+}
+
+/* Style pour le lien d'inscription */
+.login-container p {
+  font-size: 1.2rem;
+  color: #777;
+}
+
+.login-container a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-container a:hover {
+  text-decoration: underline;
+}
+
+
+/* App.css */
+/* Style pour le conteneur d'inscription */
+.signup-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 2rem auto;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+}
+
+/* Titre de l'inscription */
+.signup-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+/* Style du formulaire */
+.signup-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Style pour les labels */
+.signup-container label {
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Style pour les champs de saisie */
+.signup-container input[type="text"],
+.signup-container input[type="email"],
+.signup-container input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Style pour le focus des champs */
+.signup-container input[type="text"]:focus,
+.signup-container input[type="email"]:focus,
+.signup-container input[type="password"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Style pour les cases à cocher des catégories */
+.signup-container div > div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.signup-container input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* Style pour le bouton de soumission */
+.signup-container button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1rem;
+}
+
+.signup-container button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Style pour le message d'erreur */
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+  font-size: 0.875rem;
+}
+
+/* Style pour le lien de connexion */
+.signup-container p {
+  font-size: 1.2rem;
+  color: #777;
+}
+
+.signup-container a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signup-container a:hover {
+  text-decoration: underline;
+}
+
+/* App.css */
+
+/* Styles pour le conteneur du profil */
+.profile-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h2 {
+  text-align: center;
+  color: #333;
+}
+
+.profile-container p {
+  color: #666;
+}
+
+.questions-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.question-item {
+  background-color: #fff;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.question-header h4 {
+  margin: 0;
+  color: #333;
+}
+
+.question-header p {
+  margin: 5px 0;
+  color: #999;
+}
+
+.edit-section textarea {
+  height: 200px; /* Augmente la hauteur de la zone de texte */
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.edit-section button {
+  padding: 8px 12px;
+  margin: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-section button:hover {
+  background-color: #0056b3;
+}
+
+.responses-section,
+.comments-section {
+  margin-top: 10px;
+}
+
+.responses-section h5,
+.comments-section h5 {
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.responses-section ul,
+.comments-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.responses-section li,
+.comments-section li {
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 4px;
+}
+
+.sign-out-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.sign-out-btn:hover {
+  background-color: #c82333;
+}
+
+/* App.css */
+
+/* Style général du formulaire de création de question */
+/* Style pour le conteneur du formulaire de création de question */
+.create-question-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+/* Titre du formulaire */
+.create-question-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Style du formulaire */
+.create-question-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Style pour les labels */
+.create-question-container label {
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Style pour les champs de saisie et les menus déroulants */
+.create-question-container input[type="text"],
+.create-question-container textarea,
+.create-question-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Style pour le focus des champs */
+.create-question-container input[type="text"]:focus,
+.create-question-container textarea:focus,
+.create-question-container select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Style pour la zone de texte */
+.create-question-container textarea {
+  resize: vertical;
+  height: 150px;
+}
+
+/* Style pour le bouton de soumission */
+.create-question-container button {
   background-color: #007bff;
   color: white;
   padding: 10px 20px;
@@ -381,219 +821,41 @@ form button:hover {
   transition: background-color 0.3s;
 }
 
-.login-container button:hover {
-  background-color: #007bff;
+.create-question-container button:hover {
+  background-color: #0056b3;
 }
 
-.login-container .error-message {
-  color: red;
-  margin-bottom: 15px;
-}
-
-.login-container p {
-  margin-top: 20px;
+/* Style pour le message de chargement et de connexion */
+p {
+  font-size: 1.2rem;
   color: #777;
 }
 
-.login-container a {
+a {
   color: #007bff;
   text-decoration: none;
 }
 
-.login-container a:hover {
+a:hover {
   text-decoration: underline;
 }
 
-.login-container div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
-.login-container div button {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.login-container div button:last-child {
-  margin-bottom: 0;
-}
-
-/* App.css */
-.signup-container {
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.signup-container h2 {
+/* Style pour le message de chargement et de connexion */
+p {
   text-align: center;
-  margin-bottom: 20px;
+  font-size: 1.2rem;
 }
 
-.signup-container form {
-  display: flex;
-  flex-direction: column;
-}
-
-.signup-container form div {
-  margin-bottom: 10px;
-}
-
-.signup-container form label {
-  font-weight: bold;
-}
-
-.signup-container form input[type="text"],
-.signup-container form input[type="email"],
-.signup-container form input[type="password"],
-.signup-container form select {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.signup-container form button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.signup-container form button:hover {
-  background-color: #0056b3;
-}
-
-.signup-container p {
-  margin-top: 10px;
-  text-align: center;
-}
-
-.signup-container p a {
+a {
   color: #007bff;
   text-decoration: none;
 }
 
-.signup-container p a:hover {
+a:hover {
   text-decoration: underline;
 }
 
-.signup-container .error-message {
-  color: red;
-  text-align: center;
-  margin-top: 10px;
-}
-/* App.css */
-
-/* Styles pour le conteneur du profil */
-.profile-container {
-  max-width: 800px; /* Augmenter la largeur maximale pour plus d'espace */
-  margin: 20px auto; /* Espacement vertical pour la mise en page */
-  padding: 30px; /* Augmenter le padding pour plus de confort */
-  border: 1px solid #ddd; /* Couleur de bordure plus douce */
-  border-radius: 12px; /* Bords plus arrondis */
-  background-color: #f9f9f9; /* Couleur de fond légèrement grise */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre plus profonde pour un effet de flottement */
-}
-
-/* Styles pour le titre du profil */
-.profile-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px; /* Taille du texte plus grande */
-  color: #333; /* Couleur de texte sombre pour un meilleur contraste */
-}
-
-/* Styles pour les paragraphes du profil */
-.profile-container p {
-  margin-bottom: 15px; /* Espacement plus généreux */
-  font-size: 16px; /* Taille de police plus lisible */
-  color: #555; /* Couleur de texte plus douce */
-}
-
-/* Styles pour le bouton de déconnexion */
-.profile-container button {
-  display: block;
-  width: 20%;
-  padding: 12px; /* Augmenter le padding pour un bouton plus grand */
-  margin-top: 20px; /* Espacement plus important au-dessus du bouton */
-  font-size: 18px; /* Taille du texte plus grande pour le bouton */
-  background-color: #dc3545; /* Couleur de fond du bouton */
-  color: #fff;
-  border: none;
-  border-radius: 6px; /* Bords du bouton plus arrondis */
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s; /* Effet de transition pour l'animation */
-}
-
-/* Styles pour le bouton au survol */
-.profile-container button:hover {
-  background-color: #c82333; /* Couleur du bouton au survol */
-  transform: scale(1.05); /* Agrandissement léger du bouton au survol */
-}
-
-/* Styles pour le lien de connexion */
-.profile-container a {
-  color: #007bff; /* Couleur du lien */
-  text-decoration: none; /* Enlever la décoration par défaut */
-}
-
-.profile-container a:hover {
-  text-decoration: underline; /* Souligner le lien au survol */
-}
-
-/* App.css */
-
-.create-question-form {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.create-question-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-.create-question-form input,
-.create-question-form textarea,
-.create-question-form select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.create-question-form button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.create-question-form button:hover {
-  background-color: #0056b3;
-}
-/* App.css */
 /* App.css */
 
 /* Styles spécifiques pour l'en-tête de la page Home */
@@ -663,4 +925,116 @@ form button:hover {
 
 .side-menu ul li a:hover {
   color: #007bff; /* Couleur du texte des liens au survol */
+}
+
+
+
+/* AdminPanel.css */
+
+/* Conteneur principal */
+.admin-panel-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Titres principaux */
+.admin-panel-container h1,
+.admin-panel-container h2 {
+  color: #333;
+  border-bottom: 2px solid #007BFF;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* Formulaires */
+.admin-panel-container form {
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-panel-container input[type="email"],
+.admin-panel-container input[type="text"],
+.admin-panel-container input[type="password"],
+.admin-panel-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.admin-panel-container button {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.admin-panel-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Tableaux */
+.admin-panel-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.admin-panel-container th,
+.admin-panel-container td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.admin-panel-container th {
+  background-color: #007BFF;
+  color: #fff;
+  font-weight: bold;
+}
+
+.admin-panel-container tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Sections */
+.admin-panel-container .table-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-panel-container .table-actions button {
+  margin: 0;
+  margin-right: 10px;
+}
+
+.admin-panel-container input[type="text"] {
+  border: 1px solid #ddd;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .admin-panel-container {
+    padding: 15px;
+  }
+
+  .admin-panel-container table {
+    font-size: 14px;
+  }
+
+  .admin-panel-container button {
+    padding: 8px 12px;
+  }
 }

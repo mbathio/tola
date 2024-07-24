@@ -45,7 +45,9 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: '#3f51b5',
+    backgroundColor: theme.palette.primary.main,
+    color: '#fff',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
   },
   drawer: {
     width: drawerWidth,
@@ -53,6 +55,8 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: theme.palette.background.paper,
+    borderRight: '1px solid #ddd',
   },
   drawerContainer: {
     overflow: 'auto',
@@ -60,33 +64,44 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    backgroundColor: theme.palette.background.default,
+    minHeight: '100vh',
   },
   menuButton: {
     marginLeft: theme.spacing(2),
     backgroundColor: theme.palette.primary.main,
     color: '#fff',
-    border: '1px solid #fff',
+    border: 'none',
+    borderRadius: theme.shape.borderRadius,
     '&:hover': {
       backgroundColor: theme.palette.primary.dark,
     },
     textTransform: 'capitalize',
+    fontWeight: 'bold',
   },
   toolbar: {
     ...theme.mixins.toolbar,
-    '& .MuiTypography-root': {
-      fontSize: '1rem',
-    },
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: theme.spacing(1, 2),
   },
   searchForm: {
     display: 'flex',
     alignItems: 'center',
     marginLeft: theme.spacing(2),
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: '#fff',
+    boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.2)',
   },
   searchInput: {
     marginRight: theme.spacing(1),
-    padding: theme.spacing(0.5),
+    padding: theme.spacing(1),
     borderRadius: theme.shape.borderRadius,
-    border: '1px solid #ccc',
+    border: '1px solid #ddd',
+    outline: 'none',
+    flex: 1,
+    
   },
   searchButton: {
     padding: theme.spacing(0.5, 2),
@@ -101,6 +116,11 @@ const useStyles = makeStyles((theme) => ({
   },
   spacer: {
     flexGrow: 1,
+  },
+  drawerListItem: {
+    '&:hover': {
+      backgroundColor: theme.palette.action.hover,
+    },
   },
 }));
 
@@ -154,31 +174,31 @@ const AppMenu = () => {
       >
         <div className={classes.drawerContainer}>
           <List>
-            <ListItem button component={RouterLink} to="/">
+            <ListItem button component={RouterLink} to="/" className={classes.drawerListItem}>
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
               <ListItemText primary="Accueil" />
             </ListItem>
-            <ListItem button component={RouterLink} to="/questions">
+            <ListItem button component={RouterLink} to="/questions" className={classes.drawerListItem}>
               <ListItemIcon>
                 <QuestionIcon />
               </ListItemIcon>
               <ListItemText primary="Questions" />
             </ListItem>
-            <ListItem button component={RouterLink} to="/responses">
+            <ListItem button component={RouterLink} to="/responses" className={classes.drawerListItem}>
               <ListItemIcon>
                 <QuestionIcon />
               </ListItemIcon>
               <ListItemText primary="Réponses" />
             </ListItem>
-            <ListItem button component={RouterLink} to="/categories">
+            <ListItem button component={RouterLink} to="/categories" className={classes.drawerListItem}>
               <ListItemIcon>
                 <CategoryIcon />
               </ListItemIcon>
               <ListItemText primary="Catégories" />
             </ListItem>
-            <ListItem button component={RouterLink} to="/profile">
+            <ListItem button component={RouterLink} to="/profile" className={classes.drawerListItem}>
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
@@ -187,25 +207,25 @@ const AppMenu = () => {
           </List>
           <Divider />
           <List>
-            <ListItem button component={RouterLink} to="/notifications">
+            <ListItem button component={RouterLink} to="/notifications" className={classes.drawerListItem}>
               <ListItemIcon>
                 <NotificationsIcon />
               </ListItemIcon>
               <ListItemText primary="Notifications" />
             </ListItem>
-            <ListItem button component={RouterLink} to="/messages">
+            <ListItem button component={RouterLink} to="/messages" className={classes.drawerListItem}>
               <ListItemIcon>
                 <MessageIcon />
               </ListItemIcon>
               <ListItemText primary="Messages" />
             </ListItem>
-            <ListItem button component={RouterLink} to="/settings">
+            <ListItem button component={RouterLink} to="/settings" className={classes.drawerListItem}>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
               <ListItemText primary="Paramètres" />
             </ListItem>
-            <ListItem button component={RouterLink} to="/admin">
+            <ListItem button component={RouterLink} to="/admin" className={classes.drawerListItem}>
               <ListItemIcon>
                 <AdminIcon />
               </ListItemIcon>
